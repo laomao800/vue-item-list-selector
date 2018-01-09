@@ -11,48 +11,46 @@ const createVm = createViewModel({
 })
 
 describe('基础', () => {
-  // afterEach(() => {
-  //   vm.$destroy && vm.$destroy()
-  // })
+  afterEach(() => {
+    vm.$destroy && vm.$destroy()
+  })
 
   it('Data check', () => {
     vm = createVm({
       template: '<itemListSelector ref="selector" />'
     })
-    expect(vm.$refs.selector.keyword).to.equal('')
-    expect(vm.$refs.selector.curPage).to.equal(1)
-    expect(vm.$refs.selector.optionActiveIndex).to.equal(-1)
+    expect(vm.$refs.selector.keyword).toEqual('')
+    expect(vm.$refs.selector.curPage).toEqual(1)
+    expect(vm.$refs.selector.optionActiveIndex).toEqual(-1)
   })
 
   it('无数据空白组件', () => {
     vm = createVm({
       template: '<itemListSelector ref="selector" />'
     })
-    expect(vm.$el.querySelectorAll('.item-selector__option').length).to.equal(0)
+    expect(vm.$el.querySelectorAll('.item-selector__option').length).toEqual(0)
   })
 
   it('组件无分页', () => {
     vm = createVm({
       template: '<itemListSelector ref="selector" :data="listData" :use-page="false" />'
     })
-    expect(vm.$el.querySelectorAll('.item-selector__option').length).to.equal(vm.listData.length)
-    expect(vm.$refs.selector.showingData.length).to.equal(vm.listData.length)
+    expect(vm.$el.querySelectorAll('.item-selector__option').length).toEqual(vm.listData.length)
+    expect(vm.$refs.selector.showingData.length).toEqual(vm.listData.length)
   })
 
   it('组件默认分页数量', () => {
     vm = createVm({
       template: '<itemListSelector  ref="selector":data="listData" />'
     })
-    expect(vm.$el.querySelectorAll('.item-selector__option').length).to.equal(10)
+    expect(vm.$el.querySelectorAll('.item-selector__option').length).toEqual(10)
   })
 
   it('组件自定义分页数量', () => {
-    for (let i = 1; i <= vm.listData.length; i++) {
-      vm = createVm({
-        template: `<itemListSelector ref="selector" :data="listData" :page-size="${i}" />`
-      })
-      expect(vm.$el.querySelectorAll('.item-selector__option').length).to.equal(i)
-    }
+    vm = createVm({
+      template: `<itemListSelector ref="selector" :data="listData" :page-size="${5}" />`
+    })
+    expect(vm.$el.querySelectorAll('.item-selector__option').length).toEqual(5)
   })
 
   it('optionTemplate - 默认', () => {
@@ -60,7 +58,7 @@ describe('基础', () => {
       template: `<itemListSelector ref="selector" :data="listData" />`
     })
     Array.from(vm.$el.querySelectorAll('.item-selector__option')).forEach((row, index) => {
-      expect(row.innerHTML).to.equal(vm.listData[index].label)
+      expect(row.innerHTML).toEqual(vm.listData[index].label)
     })
   })
 
@@ -74,20 +72,48 @@ describe('基础', () => {
       }
     })
     Array.from(vm.$el.querySelectorAll('.item-selector__option')).forEach((row, index) => {
-      expect(row.innerHTML).to.equal(`${vm.listData[index].label}---${vm.listData[index].value}`)
+      expect(row.innerHTML).toEqual(`${vm.listData[index].label}---${vm.listData[index].value}`)
     })
   })
 })
 
 describe('选项过滤', () => {
-  // afterEach(() => {
-  //   vm.$destroy && vm.$destroy()
-  // })
+  afterEach(() => {
+    vm.$destroy && vm.$destroy()
+  })
 
   it('关键字过滤', () => {
     vm = createVm({
       template: '<itemListSelector ref="selector" />'
     })
-    expect(vm.$el.querySelectorAll('.item-selector__option').length).to.equal(0)
+    expect(vm.$el.querySelectorAll('.item-selector__option').length).toEqual(0)
+  })
+})
+
+describe('markMatch.ts', () => {
+  const markMatch = require('@/components/markMatch').default
+  const testText = '1234567890'
+
+  it('Empty keyword', () => {
+    const markResult = markMatch(testText, '')
+    expect(markResult).toEqual(testText)
+  })
+
+  it('Unmatch', () => {
+    const markResult = markMatch(testText, 'a')
+    expect(markResult).toEqual(testText)
+  })
+
+  it('Mark match', () => {
+    const markResult = markMatch(testText, '3')
+    expect(markResult).toEqual('12<span class="match">3</span>4567890')
+  })
+
+  it('Config', () => {
+    const markResult = markMatch(testText, '3', {
+      tag: 'div',
+      className: 'keyword'
+    })
+    expect(markResult).toEqual('12<div class="keyword">3</div>4567890')
   })
 })

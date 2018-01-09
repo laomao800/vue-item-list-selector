@@ -14,11 +14,7 @@
     "lib": ["dom", "es2017"],
     "strict": true,
     "types": [
-
-      "chai",
-      "mocha",
-      "sinon",
-      "sinon-chai",
+      "jest",
       "node",
       "vue"
     ],

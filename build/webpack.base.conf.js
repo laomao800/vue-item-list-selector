@@ -68,7 +68,7 @@ module.exports = {
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
-      
+
       ...(config.dev.useTslint ? [createTsLintingRule()] : []),
       {
         test: /\.vue$/,
@@ -84,10 +84,6 @@ module.exports = {
         test: /\.ts$/,
         use: utils.scriptLoaders(scriptLoadersOptions).ts,
         include: [resolve('src'), resolve('app'), resolve('test')]
-      },
-      {
-        test: /\.html?$/,
-        loader: 'raw-loader' // Required for karma test runner
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
