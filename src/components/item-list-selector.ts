@@ -10,7 +10,7 @@ export default class ItemListSelector extends Vue {
   @Model('item-selection-change') selection: Object[]
 
   @Prop({ type: Array, default: [] }) data: Object[]
-  @Prop({ type: Boolean, default: true }) paging: Boolean
+  @Prop({ type: Boolean, default: true }) usePage: Boolean
   @Prop({ type: Number, default: 10 }) pageSize: number
   @Prop({ type: String, default: '无匹配记录' }) notFoundText: string
   @Prop({ type: String, default: '请输入搜索关键字' }) searchText: string
@@ -31,7 +31,11 @@ export default class ItemListSelector extends Vue {
    * @memberof ItemListSelector
    */
   get showingData (): Object[] {
-    return [...this.filtedData].splice((this.curPage - 1) * this.pageSize, this.pageSize)
+    if (this.usePage) {
+      return [...this.filtedData].splice((this.curPage - 1) * this.pageSize, this.pageSize)
+    } else {
+      return this.filtedData
+    }
   }
 
   /**
