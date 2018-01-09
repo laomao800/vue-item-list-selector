@@ -9,7 +9,7 @@ export default class ItemListSelector extends Vue {
 
   @Model('item-selection-change') selection: Object[]
 
-  @Prop({ type: Array, default: [] }) data: Object[]
+  @Prop({ type: Array, default: (): Array<Object> => [] }) data: Array<Object>
   @Prop({ type: Boolean, default: true }) usePage: boolean
   @Prop({ type: Number, default: 10 }) pageSize: number
   @Prop({ type: String, default: '无匹配记录' }) notFoundText: string
@@ -74,6 +74,70 @@ export default class ItemListSelector extends Vue {
   }
 
   /**
+   * 设置当前组件选项值，原有已选项会被覆盖
+   *
+   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
+   * @memberof ItemListSelector
+   */
+  public setSelection (filterFunc: (item: Object) => Boolean): void {
+    // tslint:disable-next-line
+    if (typeof filterFunc !== 'function') {
+      throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
+    }
+    const newSelection = this.data.filter(filterFunc)
+    this.$emit('item-selection-change', newSelection)
+  }
+
+  /**
+   * 添加当前组件选项值，在原有已选项上添加
+   *
+   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
+   * @memberof ItemListSelector
+   */
+  public addSelect (filterFunc: (item: Object) => Boolean): void {
+    // tslint:disable-next-line
+    if (typeof filterFunc !== 'function') {
+      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
+    }
+    const filtedSelection = this.data.filter(item => {
+      return filterFunc(item) && !this.isSelected(item)
+    })
+    const newSelection = [
+      ...this.selection,
+      ...filtedSelection
+    ]
+    this.$emit('item-selection-change', newSelection)
+  }
+
+  /**
+   * 在已选项中筛选匹配命中 filterFunc 的选项
+   *
+   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
+   * @memberof ItemListSelector
+   */
+  public removeSelect (filterFunc: (item: Object) => Boolean): void {
+    // tslint:disable-next-line
+    if (typeof filterFunc !== 'function') {
+      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
+    }
+    const newSelection = this.selection.filter(item => {
+      return !filterFunc(item)
+    })
+    this.$emit('item-selection-change', newSelection)
+  }
+
+  /**
+   * 重置组件状态
+   *
+   * @memberof ItemListSelector
+   */
+  public reset (): void {
+    this.curPage = 1
+    this.keyword = ''
+    this.$emit('item-selection-change', [])
+  }
+
+  /**
    * 匹配高亮关键字，用于筛选时生成选项
    *
    * @private
@@ -81,10 +145,10 @@ export default class ItemListSelector extends Vue {
    * @returns {string} 匹配高亮后的字符
    * @memberof ItemListSelector
    */
+  // tslint:disable-next-line
   private highlightMatch (text: string, config: Object): string {
     return markMatch(text, this.keyword, config)
   }
-
 
   /**
    * 判断选项数据是否处于选中状态
@@ -105,6 +169,7 @@ export default class ItemListSelector extends Vue {
    * @param {KeyboardEvent} e KeyboardEvent
    * @memberof ItemListSelector
    */
+  // tslint:disable-next-line
   private handleKeywordInput (e: KeyboardEvent): void {
     switch (e.key) {
       case 'ArrowUp':
@@ -190,66 +255,5 @@ export default class ItemListSelector extends Vue {
       this.$emit('remove-value', item, newSelection)
     }
     this.$emit('item-selection-change', newSelection)
-  }
-
-  /**
-   * 设置当前组件选项值，原有已选项会被覆盖
-   *
-   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
-   * @memberof ItemListSelector
-   */
-  setSelection (filterFunc: (item: Object) => Boolean): void {
-    if (typeof filterFunc !== 'function') {
-      throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
-    }
-    const newSelection = this.data.filter(filterFunc)
-    this.$emit('item-selection-change', newSelection)
-  }
-
-  /**
-   * 添加当前组件选项值，在原有已选项上添加
-   *
-   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
-   * @memberof ItemListSelector
-   */
-  addSelect (filterFunc: (item: Object) => Boolean): void {
-    if (typeof filterFunc !== 'function') {
-      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
-    }
-    const filtedSelection = this.data.filter(item => {
-      return filterFunc(item) && !this.isSelected(item)
-    })
-    const newSelection = [
-      ...this.selection,
-      ...filtedSelection
-    ]
-    this.$emit('item-selection-change', newSelection)
-  }
-
-  /**
-   * 在已选项中筛选匹配命中 filterFunc 的选项
-   *
-   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
-   * @memberof ItemListSelector
-   */
-  removeSelect (filterFunc: (item: Object) => Boolean): void {
-    if (typeof filterFunc !== 'function') {
-      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
-    }
-    const newSelection = this.selection.filter(item => {
-      return !filterFunc(item)
-    })
-    this.$emit('item-selection-change', newSelection)
-  }
-
-  /**
-   * 重置组件状态
-   *
-   * @memberof ItemListSelector
-   */
-  reset (): void {
-    this.curPage = 1
-    this.keyword = ''
-    this.$emit('item-selection-change', [])
   }
 }
