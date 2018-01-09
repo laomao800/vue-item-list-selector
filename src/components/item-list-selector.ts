@@ -147,7 +147,9 @@ export default class ItemListSelector extends Vue {
    */
   // tslint:disable-next-line
   private highlightMatch (text: string, config: Object): string {
-    return markMatch(text, this.keyword, config)
+    return this.keyword
+      ? markMatch(text, this.keyword, config)
+      : text
   }
 
   /**
