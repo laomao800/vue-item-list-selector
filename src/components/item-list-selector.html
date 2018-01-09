@@ -6,7 +6,7 @@
         <span class="clean" v-if="keyword !== ''" @click="keyword = ''"><i class="fa fa-times"></i></span>
         <span v-else><i class="fa fa-search"></i></span>
       </div>
-      <input autofocus type="text" :placeholder="searchText" v-model.trim="keyword" @keyup="handleSearchInput($event)">
+      <input autofocus type="text" :placeholder="searchText" v-model.trim="keyword" @keyup="handleKeywordInput($event)">
     </div>
   </div>
   <div class="item-selector__result">

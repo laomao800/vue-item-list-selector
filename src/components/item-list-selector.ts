@@ -10,7 +10,7 @@ export default class ItemListSelector extends Vue {
   @Model('item-selection-change') selection: Object[]
 
   @Prop({ type: Array, default: [] }) data: Object[]
-  @Prop({ type: Boolean, default: true }) usePage: Boolean
+  @Prop({ type: Boolean, default: true }) usePage: boolean
   @Prop({ type: Number, default: 10 }) pageSize: number
   @Prop({ type: String, default: '无匹配记录' }) notFoundText: string
   @Prop({ type: String, default: '请输入搜索关键字' }) searchText: string
@@ -18,10 +18,8 @@ export default class ItemListSelector extends Vue {
   @Prop({ type: String, default: '下一页' }) nextPageText: string
   @Prop({
     type: Function,
-    default: (option: {[propName: string]: any}): string => {
-      return (option && option.label) ? option.label : ''
-    }
-  }) optionTemplate: (option: {[propName: string]: any}) => string
+    default: (option: {[propName: string]: any}): string => (option && option.label) ? option.label : ''
+  }) optionTemplate: (option: Object) => string
 
   /**
    * 返回当前可选项分页后用于展示的数据
@@ -75,15 +73,39 @@ export default class ItemListSelector extends Vue {
     this.optionActiveIndex = -1
   }
 
-  highlightMatch (text: string): string {
-    return markMatch(text, this.keyword)
+  /**
+   * 匹配高亮关键字，用于筛选时生成选项
+   *
+   * @private
+   * @param {string} text 待处理字符
+   * @returns {string} 匹配高亮后的字符
+   * @memberof ItemListSelector
+   */
+  private highlightMatch (text: string, config: Object): string {
+    return markMatch(text, this.keyword, config)
   }
 
-  isSelected (item: Object): boolean {
+
+  /**
+   * 判断选项数据是否处于选中状态
+   *
+   * @private
+   * @param {Object} item 待判断数据
+   * @returns {boolean} 是否处于选中状态
+   * @memberof ItemListSelector
+   */
+  private isSelected (item: Object): boolean {
     return this.selection && this.selection.indexOf(item) > -1
   }
 
-  handleSearchInput (e: KeyboardEvent): void {
+  /**
+   * 输入框键盘特殊键位处理，包括：上下移动高亮选项、前后翻页、回车选中高亮选项
+   *
+   * @private
+   * @param {KeyboardEvent} e KeyboardEvent
+   * @memberof ItemListSelector
+   */
+  private handleKeywordInput (e: KeyboardEvent): void {
     switch (e.key) {
       case 'ArrowUp':
         this.activePrevOptions()
@@ -100,26 +122,32 @@ export default class ItemListSelector extends Vue {
         this.goNextPage()
         break
       case 'Enter':
-        this.toggleSelection(this.optionActiveIndex)
+        this.toggleSelection()
         break
     }
   }
 
-  goPrevPage (): void {
+  private goPrevPage (): void {
     this.optionActiveIndex = -1
     if (this.curPage > 1) {
       this.curPage--
     }
   }
 
-  goNextPage (): void {
+  private goNextPage (): void {
     this.optionActiveIndex = -1
     if (this.curPage < this.totalPage) {
       this.curPage++
     }
   }
 
-  activePrevOptions (): void {
+  /**
+   * 往前移动高亮光标
+   *
+   * @private
+   * @memberof ItemListSelector
+   */
+  private activePrevOptions (): void {
     if (this.optionActiveIndex < 1) {
       this.optionActiveIndex = this.showingData.length - 1
     } else {
@@ -127,7 +155,13 @@ export default class ItemListSelector extends Vue {
     }
   }
 
-  activeNextOptions (): void {
+  /**
+   * 往后移动高亮光标
+   *
+   * @private
+   * @memberof ItemListSelector
+   */
+  private activeNextOptions (): void {
     if (this.optionActiveIndex < this.showingData.length - 1) {
       this.optionActiveIndex++
     } else {
@@ -135,11 +169,17 @@ export default class ItemListSelector extends Vue {
     }
   }
 
-  toggleSelection (showingIndex: number): void {
-    if (showingIndex < 0) {
+  /**
+   * 切换当前高亮选项选中状态
+   *
+   * @private
+   * @memberof ItemListSelector
+   */
+  private toggleSelection (): void {
+    if (this.optionActiveIndex < 0) {
       return
     }
-    const item = this.showingData[showingIndex]
+    const item = this.showingData[this.optionActiveIndex]
     const index = this.selection.indexOf(item)
     let newSelection = [...this.selection]
     if (index > -1) {
@@ -152,14 +192,30 @@ export default class ItemListSelector extends Vue {
     this.$emit('item-selection-change', newSelection)
   }
 
-  setSelection (filterFunc: {(item: Object): boolean}): void {
-    this.$nextTick(() => {
-      const newSelection = this.data.filter(filterFunc)
-      this.$emit('item-selection-change', newSelection)
-    })
+  /**
+   * 设置当前组件选项值，原有已选项会被覆盖
+   *
+   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
+   * @memberof ItemListSelector
+   */
+  setSelection (filterFunc: (item: Object) => Boolean): void {
+    if (typeof filterFunc !== 'function') {
+      throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
+    }
+    const newSelection = this.data.filter(filterFunc)
+    this.$emit('item-selection-change', newSelection)
   }
 
-  addSelect (filterFunc: {(item: Object): boolean}): void {
+  /**
+   * 添加当前组件选项值，在原有已选项上添加
+   *
+   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
+   * @memberof ItemListSelector
+   */
+  addSelect (filterFunc: (item: Object) => Boolean): void {
+    if (typeof filterFunc !== 'function') {
+      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
+    }
     const filtedSelection = this.data.filter(item => {
       return filterFunc(item) && !this.isSelected(item)
     })
@@ -167,25 +223,33 @@ export default class ItemListSelector extends Vue {
       ...this.selection,
       ...filtedSelection
     ]
-    this.$nextTick(() => {
-      this.$emit('item-selection-change', newSelection)
-    })
+    this.$emit('item-selection-change', newSelection)
   }
 
-  removeSelect (filterFun: {(item: Object): boolean}): void {
+  /**
+   * 在已选项中筛选匹配命中 filterFunc 的选项
+   *
+   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
+   * @memberof ItemListSelector
+   */
+  removeSelect (filterFunc: (item: Object) => Boolean): void {
+    if (typeof filterFunc !== 'function') {
+      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
+    }
     const newSelection = this.selection.filter(item => {
-      return !filterFun(item)
+      return !filterFunc(item)
     })
-    this.$nextTick(() => {
-      this.$emit('item-selection-change', newSelection)
-    })
+    this.$emit('item-selection-change', newSelection)
   }
 
+  /**
+   * 重置组件状态
+   *
+   * @memberof ItemListSelector
+   */
   reset (): void {
     this.curPage = 1
     this.keyword = ''
-    this.$nextTick(() => {
-      this.$emit('item-selection-change', [])
-    })
+    this.$emit('item-selection-change', [])
   }
 }
