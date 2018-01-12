@@ -2,27 +2,27 @@ import Vue from 'vue/dist/vue.min.js'
 
 export function getTestData () {
   return [
-    { label: '小刘01', value: 30 },
-    { label: '小张02', value: 20 },
-    { label: '小刘03', value: 30 },
-    { label: '小张04', value: 20 },
-    { label: '小刘05', value: 30 },
-    { label: '小张06', value: 20 },
-    { label: '小刘07', value: 30 },
-    { label: '小张08', value: 20 },
-    { label: '小刘09', value: 30 },
-    { label: '小张10', value: 20 },
-    { label: '小刘11', value: 30 },
-    { label: '小张12', value: 20 },
-    { label: '小刘13', value: 30 },
-    { label: '小张14', value: 20 },
-    { label: '小刘15', value: 30 },
-    { label: '小刘16', value: 30 },
-    { label: '小刘17', value: 30 },
-    { label: '小刘18', value: 30 },
-    { label: '小刘19', value: 30 },
-    { label: '小张20', value: 20 },
-    { label: '小张21', value: 20 }
+    { label: '小刘00', value: '00' },
+    { label: '小张01', value: '01' },
+    { label: '小刘02', value: '02' },
+    { label: '小张03', value: '03' },
+    { label: '小刘04', value: '04' },
+    { label: '小张05', value: '05' },
+    { label: '小刘06', value: '06' },
+    { label: '小张07', value: '07' },
+    { label: '小刘08', value: '08' },
+    { label: '小张09', value: '09' },
+    { label: '小刘10', value: '10' },
+    { label: '小张11', value: '11' },
+    { label: '小刘12', value: '12' },
+    { label: '小张13', value: '13' },
+    { label: '小刘14', value: '14' },
+    { label: '小刘15', value: '15' },
+    { label: '小刘16', value: '16' },
+    { label: '小刘17', value: '17' },
+    { label: '小刘18', value: '18' },
+    { label: '小张19', value: '19' },
+    { label: '小张20', value: '20' }
   ]
 }
 
