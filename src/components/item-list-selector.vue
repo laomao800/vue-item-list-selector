@@ -6,7 +6,7 @@
           <span class="clean" v-if="keyword !== ''" @click="keyword = ''"><i class="fa fa-times"></i></span>
           <span v-else><i class="fa fa-search"></i></span>
         </div>
-        <input autofocus type="text" :placeholder="searchText" v-model.trim="keyword" @keyup="handleKeywordInput($event)">
+        <input type="text" :placeholder="searchText" v-model.trim="keyword" @keyup="handleKeywordInput($event)">
       </div>
     </div>
     <div class="item-selector__result">
@@ -45,7 +45,7 @@ export default class ItemListSelector extends Vue {
   curPage: number = 1
   optionActiveIndex: number = -1
 
-  @Model('item-selection-change') selection: Object[]
+  @Model('item-selection-change') selection: Array<Object>
 
   @Prop({ type: Array, default: (): Array<Object> => [] }) data: Array<Object>
   @Prop({ type: Boolean, default: true }) usePage: boolean
@@ -97,7 +97,9 @@ export default class ItemListSelector extends Vue {
    * @memberof ItemListSelector
    */
   get totalPage (): number {
-    return Math.ceil(this.filtedData.length / this.pageSize) || 1
+    return this.usePage
+      ? Math.ceil(this.filtedData.length / this.pageSize) || 1
+      : 1
   }
 
   /**
@@ -118,7 +120,6 @@ export default class ItemListSelector extends Vue {
    * @memberof ItemListSelector
    */
   public setSelection (filterFunc: (item: Object) => Boolean): void {
-    // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
       throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
     }
@@ -211,23 +212,23 @@ export default class ItemListSelector extends Vue {
    */
   // tslint:disable-next-line
   private handleKeywordInput (e: KeyboardEvent): void {
-    switch (e.key) {
-      case 'ArrowUp':
+    switch (e.keyCode) {
+      case 38:
         this.activePrevOptions()
         break
-      case 'ArrowDown':
+      case 40:
         this.activeNextOptions()
         break
-      case 'PageUp':
+      case 33:
         e.preventDefault()
         this.goPrevPage()
         break
-      case 'PageDown':
+      case 34:
         e.preventDefault()
         this.goNextPage()
         break
-      case 'Enter':
-        this.toggleSelection()
+      case 13:
+        this.toggleSelection(this.optionActiveIndex)
         break
     }
   }
@@ -275,26 +276,26 @@ export default class ItemListSelector extends Vue {
   }
 
   /**
-   * 切换当前高亮选项选中状态
+   * 切换选项选中状态，
+   * 用于切换当前高亮选项选中状态、鼠标点击选项
    *
    * @private
    * @memberof ItemListSelector
    */
   private toggleSelection (): void {
-    if (this.optionActiveIndex < 0) {
-      return
+    const item = this.showingData[targetIndex]
+    if (item) {
+      const index = this.selection.indexOf(item)
+      let newSelection = [...this.selection]
+      if (index > -1) {
+        newSelection.splice(index, 1)
+        this.$emit('remove-selection', item, newSelection)
+      } else {
+        newSelection.push(item)
+        this.$emit('add-selection', item, newSelection)
+      }
+      this.$emit('item-selection-change', newSelection)
     }
-    const item = this.showingData[this.optionActiveIndex]
-    const index = this.selection.indexOf(item)
-    let newSelection = [...this.selection]
-    if (index > -1) {
-      newSelection.splice(index, 1)
-      this.$emit('add-value', item, newSelection)
-    } else {
-      newSelection.push(item)
-      this.$emit('remove-value', item, newSelection)
-    }
-    this.$emit('item-selection-change', newSelection)
   }
 }
 </script>
