@@ -1,5 +1,3 @@
-import Vue from 'vue/dist/vue.min.js'
-
 export function getTestData () {
   return [
     { label: '小刘00', value: '00' },
@@ -24,15 +22,4 @@ export function getTestData () {
     { label: '小张19', value: '19' },
     { label: '小张20', value: '20' }
   ]
-}
-
-export function createViewModel (baseConfig) {
-  const el = document.createElement('div')
-  document.body.appendChild(el)
-
-  return (config) => new Vue({
-    el,
-    ...baseConfig,
-    ...config
-  })
 }
