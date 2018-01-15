@@ -282,7 +282,7 @@ export default class ItemListSelector extends Vue {
    * @private
    * @memberof ItemListSelector
    */
-  private toggleSelection (): void {
+  private toggleSelection (targetIndex: number): void {
     const item = this.showingData[targetIndex]
     if (item) {
       const index = this.selection.indexOf(item)
