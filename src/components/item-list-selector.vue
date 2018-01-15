@@ -125,7 +125,7 @@ export default class ItemListSelector extends Vue {
       throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
     }
     const newSelection = this.data.filter(filterFunc)
-    this.$emit('item-selection-change', newSelection)
+    this.$emit('selection-change', newSelection)
   }
 
   /**
@@ -146,7 +146,7 @@ export default class ItemListSelector extends Vue {
       ...this.selection,
       ...filtedSelection
     ]
-    this.$emit('item-selection-change', newSelection)
+    this.$emit('selection-change', newSelection)
   }
 
   /**
@@ -163,7 +163,7 @@ export default class ItemListSelector extends Vue {
     const newSelection = this.selection.filter(item => {
       return !filterFunc(item)
     })
-    this.$emit('item-selection-change', newSelection)
+    this.$emit('selection-change', newSelection)
   }
 
   /**
@@ -174,7 +174,7 @@ export default class ItemListSelector extends Vue {
   public reset (): void {
     this.curPage = 1
     this.keyword = ''
-    this.$emit('item-selection-change', [])
+    this.$emit('selection-change', [])
   }
 
   /**
@@ -290,13 +290,12 @@ export default class ItemListSelector extends Vue {
       let newSelection = [...this.selection]
       if (index > -1) {
         newSelection.splice(index, 1)
-        this.$emit('remove-selection', item, newSelection)
+      this.$emit('selection-remove', item, newSelection)
       } else {
         newSelection.push(item)
-        this.$emit('add-selection', item, newSelection)
-      }
-      this.$emit('item-selection-change', newSelection)
+      this.$emit('selection-add', item, newSelection)
     }
+    this.$emit('selection-change', newSelection)
   }
 }
 </script>
