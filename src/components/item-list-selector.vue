@@ -45,7 +45,8 @@ export default class ItemListSelector extends Vue {
   curPage: number = 1
   optionActiveIndex: number = -1
 
-  @Model('item-selection-change') selection: Array<Object>
+  @Prop({ type: Array, default: (): Array<Object> => [] })
+  @Model('selection-change') selection: Array<Object>
 
   @Prop({ type: Array, default: (): Array<Object> => [] }) data: Array<Object>
   @Prop({ type: Boolean, default: true }) usePage: boolean
