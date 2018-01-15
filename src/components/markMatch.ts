@@ -7,11 +7,11 @@
  */
 export default function markMatch (text: string, keyword: string, config: { tag?: string, className?: string } = {}): string {
   const { tag = 'span', className = 'match' } = config
-  let resultText = text
-  if (keyword) {
+  if (!keyword || !(keyword = keyword.trim())) {
+    return text
+  } else {
     const escapedKeyword = keyword.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
     const reg = new RegExp(escapedKeyword, 'gi')
-    resultText = text.replace(reg, match => `<${tag} class="${className}">${match}</${tag}>`)
+    return text.replace(reg, match => `<${tag} class="${className}">${match}</${tag}>`)
   }
-  return resultText
 }

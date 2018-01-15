@@ -12,11 +12,15 @@
     <div class="item-selector__result">
       <ul class="item-selector__options">
         <li v-if="showingData.length === 0" class="item-selector__option-notfound">{{ notFoundText }}</li>
-        <li v-for="item, index in showingData" class="item-selector__option"
-          :class="{
-            'option-checked': isSelected(item),
-            'option-active': index === optionActiveIndex
-          }"
+        <li v-for="(item, index) in showingData"
+          :key="index"
+          :class="[
+            'item-selector__option',
+            {
+              'option-checked': isSelected(item),
+              'option-active': index === optionActiveIndex
+            }
+          ]"
           v-html="highlightMatch(optionTemplate(item))"
           @click="toggleSelection(index)" />
       </ul>
@@ -121,6 +125,7 @@ export default class ItemListSelector extends Vue {
    * @memberof ItemListSelector
    */
   public setSelection (filterFunc: (item: Object) => Boolean): void {
+    // istanbul ignore if
     if (typeof filterFunc !== 'function') {
       throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
     }
@@ -134,10 +139,11 @@ export default class ItemListSelector extends Vue {
    * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    * @memberof ItemListSelector
    */
-  public addSelect (filterFunc: (item: Object) => Boolean): void {
+  public addSelection (filterFunc: (item: Object) => Boolean): void {
+    // istanbul ignore if
     // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
-      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
+      throw Error('[item-list-selector] "addSelection()" accept a function as argument.')
     }
     const filtedSelection = this.data.filter(item => {
       return filterFunc(item) && !this.isSelected(item)
@@ -150,15 +156,16 @@ export default class ItemListSelector extends Vue {
   }
 
   /**
-   * 在已选项中筛选匹配命中 filterFunc 的选项
+   * 在已选项中匹配命中 filterFunc 的选项
    *
    * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    * @memberof ItemListSelector
    */
-  public removeSelect (filterFunc: (item: Object) => Boolean): void {
+  public removeSelection (filterFunc: (item: Object) => Boolean): void {
+    // istanbul ignore if
     // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
-      throw Error('[item-list-selector] "addSelect()" accept a function as argument.')
+      throw Error('[item-list-selector] "removeSelection()" accept a function as argument.')
     }
     const newSelection = this.selection.filter(item => {
       return !filterFunc(item)
@@ -236,16 +243,12 @@ export default class ItemListSelector extends Vue {
 
   private goPrevPage (): void {
     this.optionActiveIndex = -1
-    if (this.curPage > 1) {
-      this.curPage--
-    }
+    this.curPage = Math.max(this.curPage - 1, 1)
   }
 
   private goNextPage (): void {
     this.optionActiveIndex = -1
-    if (this.curPage < this.totalPage) {
-      this.curPage++
-    }
+    this.curPage = Math.min(this.curPage + 1, this.totalPage)
   }
 
   /**
@@ -285,14 +288,17 @@ export default class ItemListSelector extends Vue {
    */
   private toggleSelection (targetIndex: number): void {
     const item = this.showingData[targetIndex]
-    if (item) {
-      const index = this.selection.indexOf(item)
-      let newSelection = [...this.selection]
-      if (index > -1) {
-        newSelection.splice(index, 1)
+    // istanbul ignore if
+    if (!item) {
+      return
+    }
+    const index = this.selection.indexOf(item)
+    let newSelection = [...this.selection]
+    if (index > -1) {
+      newSelection.splice(index, 1)
       this.$emit('selection-remove', item, newSelection)
-      } else {
-        newSelection.push(item)
+    } else {
+      newSelection.push(item)
       this.$emit('selection-add', item, newSelection)
     }
     this.$emit('selection-change', newSelection)
