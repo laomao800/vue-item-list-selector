@@ -1,5 +1,5 @@
 import ItemListSelector from '@/components/item-list-selector.vue'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { getTestData } from './utils.js'
 
 describe('Events', () => {
