@@ -124,7 +124,7 @@ export default class ItemListSelector extends Vue {
    * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    * @memberof ItemListSelector
    */
-  public setSelection (filterFunc: (item: Object) => Boolean): void {
+  setSelection (filterFunc: (item: Object) => Boolean): void {
     // istanbul ignore if
     if (typeof filterFunc !== 'function') {
       throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
@@ -139,7 +139,7 @@ export default class ItemListSelector extends Vue {
    * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    * @memberof ItemListSelector
    */
-  public addSelection (filterFunc: (item: Object) => Boolean): void {
+  addSelection (filterFunc: (item: Object) => Boolean): void {
     // istanbul ignore if
     // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
@@ -161,7 +161,7 @@ export default class ItemListSelector extends Vue {
    * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    * @memberof ItemListSelector
    */
-  public removeSelection (filterFunc: (item: Object) => Boolean): void {
+  removeSelection (filterFunc: (item: Object) => Boolean): void {
     // istanbul ignore if
     // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
@@ -178,7 +178,7 @@ export default class ItemListSelector extends Vue {
    *
    * @memberof ItemListSelector
    */
-  public reset (): void {
+  reset (): void {
     this.curPage = 1
     this.keyword = ''
     this.$emit('selection-change', [])
@@ -193,7 +193,7 @@ export default class ItemListSelector extends Vue {
    * @memberof ItemListSelector
    */
   // tslint:disable-next-line
-  private highlightMatch (text: string, config: Object): string {
+  highlightMatch (text: string, config: Object): string {
     return this.keyword
       ? markMatch(text, this.keyword, config)
       : text
@@ -207,7 +207,7 @@ export default class ItemListSelector extends Vue {
    * @returns {boolean} 是否处于选中状态
    * @memberof ItemListSelector
    */
-  private isSelected (item: Object): boolean {
+  isSelected (item: Object): boolean {
     return this.selection && this.selection.indexOf(item) > -1
   }
 
@@ -219,7 +219,7 @@ export default class ItemListSelector extends Vue {
    * @memberof ItemListSelector
    */
   // tslint:disable-next-line
-  private handleKeywordInput (e: KeyboardEvent): void {
+  handleKeywordInput (e: KeyboardEvent): void {
     switch (e.keyCode) {
       case 38:
         this.activePrevOptions()
@@ -241,12 +241,12 @@ export default class ItemListSelector extends Vue {
     }
   }
 
-  private goPrevPage (): void {
+  goPrevPage (): void {
     this.optionActiveIndex = -1
     this.curPage = Math.max(this.curPage - 1, 1)
   }
 
-  private goNextPage (): void {
+  goNextPage (): void {
     this.optionActiveIndex = -1
     this.curPage = Math.min(this.curPage + 1, this.totalPage)
   }
@@ -257,7 +257,7 @@ export default class ItemListSelector extends Vue {
    * @private
    * @memberof ItemListSelector
    */
-  private activePrevOptions (): void {
+  activePrevOptions (): void {
     if (this.optionActiveIndex < 1) {
       this.optionActiveIndex = this.showingData.length - 1
     } else {
@@ -271,7 +271,7 @@ export default class ItemListSelector extends Vue {
    * @private
    * @memberof ItemListSelector
    */
-  private activeNextOptions (): void {
+  activeNextOptions (): void {
     if (this.optionActiveIndex < this.showingData.length - 1) {
       this.optionActiveIndex++
     } else {
@@ -286,7 +286,7 @@ export default class ItemListSelector extends Vue {
    * @private
    * @memberof ItemListSelector
    */
-  private toggleSelection (targetIndex: number): void {
+  toggleSelection (targetIndex: number): void {
     const item = this.showingData[targetIndex]
     // istanbul ignore if
     if (!item) {
