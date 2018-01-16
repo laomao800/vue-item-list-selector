@@ -7,6 +7,7 @@
  */
 export default function markMatch (text: string, keyword: string, config: { tag?: string, className?: string } = {}): string {
   const { tag = 'span', className = 'match' } = config
+  // tslint:disable-next-line
   if (!keyword || !(keyword = keyword.trim())) {
     return text
   } else {

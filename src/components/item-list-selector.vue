@@ -192,7 +192,6 @@ export default class ItemListSelector extends Vue {
    * @returns {string} 匹配高亮后的字符
    * @memberof ItemListSelector
    */
-  // tslint:disable-next-line
   highlightMatch (text: string, config: Object): string {
     return this.keyword
       ? markMatch(text, this.keyword, config)
@@ -218,7 +217,6 @@ export default class ItemListSelector extends Vue {
    * @param {KeyboardEvent} e KeyboardEvent
    * @memberof ItemListSelector
    */
-  // tslint:disable-next-line
   handleKeywordInput (e: KeyboardEvent): void {
     switch (e.keyCode) {
       case 38:
