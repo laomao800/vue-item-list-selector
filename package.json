@@ -1,9 +1,19 @@
 {
-  "name": "vue-item-list-selector",
-  "version": "1.0.0",
-  "description": "An item selector component.",
+  "name": "@laomao800/vue-item-list-selector",
+  "version": "0.1.0",
+  "description": "An item selector Vue.js component.",
   "author": "laomao800 <laomao800@gmail.com>",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laomao800/vue-item-list-selector.git"
+  },
+  "bugs": {
+    "url": "https://github.com/laomao800/vue-item-list-selector/issues"
+  },
+  "homepage": "https://github.com/laomao800/vue-item-list-selector",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "lib/vue-item-list-selector.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

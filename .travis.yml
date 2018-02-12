@@ -1,11 +1,15 @@
 language: node_js
-
 node_js:
-  - "node"
-
+- node
 cache:
   directories:
-    - "node_modules"
-
-script:
-  npm run unit
+  - node_modules
+script: npm run unit
+deploy:
+  provider: npm
+  email: laomao800@gmail.com
+  api_key:
+    secure: KValExnRDgffAGXfPqfNO6gd/6H8V+mu9AMV3j9OpxhkSmkTB/D5wR8TP3hpCdpJVlTmcpSa9JKNgsuObn2mXBpKrZ8np3KucvUZ2dDbBj3+dhRxdXzwYRl5CR3m+KYzb8AScDNQjABhsRfwgwKp8aeGCHll5g1e8tSz3ZXFcJzc987vpxNLbuObv/9YVYJsySPzYrlbl+Tj4fiDkiXENjqNkvC2j37E5zr2ymbjKP6AQBmtIY0EiJKNyIlu5onepOGHqKUuwm8r8X8tP0dOBHUBgo6OEZYFMQtevxT3MPR5D0dLUz24EfSXOJUAbCXcxf7hLcusR/rFdQjWTqJEOlQSw99NjLHngYVpVcFBwHbyXORvgtaxJry86+HqAFEm8PG9FR3B6pNv1I99jg/9IQCeNmU0szarjEywYGObBnhKX0wyST6NInwwfjqt8xq8WkDnbYxvBkweqANIebTx1fHtdhb8tFANMnLCdYgDKqWngX1+JO6wCQRAnaVmFpjzvmSUNd1XFnHWZfXmCvULhyz6fPy1NDFSdaeldvmDeDMX9FkjlRM6DNohGDOrofvzs+SEVF8QM9VITnZvKCLI7kWfyCUHwodjIt8PWCUFfspIJuG9nT6cgOVSplxsD5PTKWCWi7Firokf+luNIRuFAxPNNm9w5AF/iUw4E/OBCl8=
+  on:
+    tags: true
+    repo: laomao800/vue-item-list-selector
