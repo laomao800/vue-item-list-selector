@@ -1,10 +1,19 @@
 language: node_js
+
 node_js:
 - node
+
 cache:
   directories:
   - node_modules
-script: npm run unit
+
+install:
+- npm install -g codecov
+
+script:
+- npm run unit
+- codecov --token=$CODECOV_TOKEN
+
 deploy:
   provider: npm
   email: laomao800@gmail.com
@@ -13,3 +22,7 @@ deploy:
   on:
     tags: true
     repo: laomao800/vue-item-list-selector
+
+env:
+  global:
+    secure: UhTku4WH6kdjCDx4M1lTOQzOKHNOsGrVq6+yRFAuhhJbB+OVzO+m+hNsCAAfIWr2a/TtJU0GECqtHBm6I34/N57X5t0lrtDh0hcCEDxWLxzmDQAs/FnjhbwN2e3kU9zH94vRLLz9dGcokge0mG9HlJ9AdLVdPQcUvZ+Ey8PDTgycAoVyv6Xn/uABLMd2/9+Ig8xAraXbYImktTS4NOjW5l8fvQQS6U50hSGdGY9khxX7KYMa8Dajvy0LAAAhB6dS/eRGCtMk0tfvUjEGPeYkT3Uo3b+f1FlXGxbCcdlIhQdQEzPKTQCeIJstpfHr4W+G0uoeFQ9m59UVpZsUTPZk35W1j/gVUcV1GUHCYcdAf0XvwSssz+bMBRDc/8qp3OTtS0ugNkiJNOGS8oxbsXoG638d8YQJMRUSzy7qi0Wkad9omZhX55o109q1gGePl5LvJ3JkvrmlOKXiIXl6ekwT+KYB6JsoyLx3h7G4HqUF55F95UZlDsmzuMI1SaeWZnlS+wzO68P0IKVkCHAoP/FsppLxJH8V+NM/8J+2AWHEHaYPzRTQmet3ax016vgEyGNHTSO0/vA+lT1aN5RzbNeacDL4MtnvjuJS13H9QU7wvr0gN/RHfsrV4i5+rSiUbCyTr/E4maR0p+XHQQDLvafOMlduyUvJGgbQm9tqeZ6rfHw=
