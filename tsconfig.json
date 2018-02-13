@@ -13,6 +13,7 @@
     "moduleResolution": "node",
     "lib": ["dom", "es2017"],
     "strict": true,
+    "strictPropertyInitialization": false,
     "types": [
       "jest",
       "node",
