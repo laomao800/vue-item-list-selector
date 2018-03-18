@@ -304,4 +304,4 @@ export default class ItemListSelector extends Vue {
 }
 </script>
 
-<style lang="scss" src="./item-list-selector.scss"></style>
+<style lang="less" src="./item-list-selector.less"></style>
