@@ -1,6 +1,6 @@
 {
   "name": "@laomao800/vue-item-list-selector",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An item selector Vue.js component.",
   "author": "laomao800 <laomao800@gmail.com>",
   "license": "MIT",
@@ -26,6 +26,10 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "tslint": "tslint -p . -s node_modules/custom-tslint-formatters/formatters -t grouped 'src/**/*.ts' 'test/unit/**/*.ts' 'test/e2e/*.ts'",
     "build": "node build/build.lib.js && node build/build.js"
+  },
+  "dependencies": {
+    "vue-class-component": "^6.0.0",
+    "vue-property-decorator": "^6.0.0"
   },
   "devDependencies": {
     "@types/jest": "^21.1.8",
@@ -95,10 +99,8 @@
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue": "^2.5.2",
-    "vue-class-component": "^6.0.0",
     "vue-jest": "^1.0.2",
     "vue-loader": "^13.3.0",
-    "vue-property-decorator": "^6.0.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.6.0",
