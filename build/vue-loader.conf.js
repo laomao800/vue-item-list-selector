@@ -12,7 +12,7 @@ module.exports = {
     utils.scriptLoaders({ts: {transpileOnly: isDevelopment}}),
     utils.cssLoaders({
       sourceMap: sourceMapEnabled,
-      extract: isProduction
+      extract: false
     })
   ),
   cssSourceMap: sourceMapEnabled,
