@@ -4,15 +4,11 @@
 
 ```bash
 # npm
-npm install --save-dev @laomao800/vue-item-list-selector
+npm install --save @laomao800/vue-item-list-selector
 
 # yarn
 yarn add @laomao800/vue-item-list-selector
 ```
-
-## 效果
-
-[在线 DEMO](https://jsfiddle.net/)
 
 ## 基础用法
 
