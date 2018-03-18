@@ -2,10 +2,7 @@
   <div class="item-selector">
     <div class="item-selector__searchbar">
       <div class="item-selector__searchbar-inner">
-        <div class="item-selector__searchbar-icon">
-          <span class="clean" v-if="keyword !== ''" @click="keyword = ''"><i class="fa fa-times"></i></span>
-          <span v-else><i class="fa fa-search"></i></span>
-        </div>
+        <div v-if="keyword !== ''" @click="keyword = ''" class="item-selector__searchbar-clean"></div>
         <input type="text" :placeholder="searchText" v-model.trim="keyword" @keyup="handleKeywordInput($event)">
       </div>
     </div>
