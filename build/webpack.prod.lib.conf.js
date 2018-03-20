@@ -20,7 +20,7 @@ delete baseWebpackConfig['output']
 
 const webpackConfig = merge(baseWebpackConfig, {
   entry: {
-    'vue-item-list-selector': './src/index.ts'
+    'item-list-selector': './src/index.ts'
   },
   module: {
     rules: utils.styleLoaders({
@@ -33,9 +33,9 @@ const webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.build.assetsLibRoot,
     library: {
-      root: toPascalCase("vue-item-list-selector"),
-      amd: "vue-item-list-selector",
-      commonjs: "vue-item-list-selector"
+      root: toPascalCase("item-list-selector"),
+      amd: "item-list-selector",
+      commonjs: "item-list-selector"
     },
     libraryTarget: 'umd',
     umdNamedDefine: true,
