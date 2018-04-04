@@ -42,33 +42,29 @@ import markMatch from './markMatch'
 
 @Component
 export default class ItemListSelector extends Vue {
-  keyword: string = ''
-  curPage: number = 1
-  optionActiveIndex: number = -1
+  public keyword: string = ''
+  public curPage: number = 1
+  public optionActiveIndex: number = -1
 
-  @Prop({ type: Array, default: (): Array<Object> => [] })
-  @Model('selection-change') selection: Array<Object>
+  @Prop({ type: Array, default: (): object[] => [] })
+  @Model('selection-change') public selection!: object[]
 
-  @Prop({ type: Array, default: (): Array<Object> => [] }) data: Array<Object>
-  @Prop({ type: Boolean, default: true }) usePage: boolean
-  @Prop({ type: Number, default: 10 }) pageSize: number
-  @Prop({ type: String, default: '无匹配记录' }) notFoundText: string
-  @Prop({ type: String, default: '请输入搜索关键字' }) searchText: string
-  @Prop({ type: String, default: '上一页' }) prevPageText: string
-  @Prop({ type: String, default: '下一页' }) nextPageText: string
+  @Prop({ type: Array, default: (): object[] => [] }) public data!: object[]
+  @Prop({ type: Boolean, default: true }) public usePage!: boolean
+  @Prop({ type: Number, default: 10 }) public pageSize!: number
+  @Prop({ type: String, default: '无匹配记录' }) public notFoundText!: string
+  @Prop({ type: String, default: '请输入搜索关键字' }) public searchText!: string
+  @Prop({ type: String, default: '上一页' }) public prevPageText!: string
+  @Prop({ type: String, default: '下一页' }) public nextPageText!: string
   @Prop({
     type: Function,
     default: (option: {[propName: string]: any}): string => (option && option.label) ? option.label : ''
-  }) optionTemplate: (option: Object) => string
+  }) public optionTemplate!: (option: object) => string
 
   /**
    * 返回当前可选项分页后用于展示的数据
-   *
-   * @readonly
-   * @type {Object[]}
-   * @memberof ItemListSelector
    */
-  get showingData (): Object[] {
+  get showingData (): object[] {
     if (this.usePage) {
       return [...this.filtedData].splice((this.curPage - 1) * this.pageSize, this.pageSize)
     } else {
@@ -78,25 +74,17 @@ export default class ItemListSelector extends Vue {
 
   /**
    * 根据关键字返回匹配过滤结果
-   *
-   * @readonly
-   * @type {Object[]}
-   * @memberof ItemListSelector
    */
-  get filtedData (): Object[] {
+  get filtedData (): object[] {
     return this.keyword === ''
       ? [...this.data]
-      : this.data.filter(r => {
+      : this.data.filter((r) => {
         return this.optionTemplate(r).toLowerCase().indexOf(this.keyword.toLowerCase()) > -1
       })
   }
 
   /**
    * 根据过滤结果计算分页总页码
-   *
-   * @readonly
-   * @type {number}
-   * @memberof ItemListSelector
    */
   get totalPage (): number {
     return this.usePage
@@ -106,11 +94,9 @@ export default class ItemListSelector extends Vue {
 
   /**
    * 关键字有变动则结果重设回第一页
-   *
-   * @memberof ItemListSelector
    */
   @Watch('keyword')
-  onKeywordChanged (): void {
+  public onKeywordChanged (): void {
     this.curPage = 1
     this.optionActiveIndex = -1
   }
@@ -118,11 +104,11 @@ export default class ItemListSelector extends Vue {
   /**
    * 设置当前组件选项值，原有已选项会被覆盖
    *
-   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
-   * @memberof ItemListSelector
+   * @param {(item: object) => boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    */
-  setSelection (filterFunc: (item: Object) => Boolean): void {
+  public setSelection (filterFunc: (item: object) => boolean): void {
     // istanbul ignore if
+    // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
       throw Error('[item-list-selector] "setSelection()" accept a function as argument.')
     }
@@ -133,16 +119,15 @@ export default class ItemListSelector extends Vue {
   /**
    * 添加当前组件选项值，在原有已选项上添加
    *
-   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
-   * @memberof ItemListSelector
+   * @param {(item: object) => boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    */
-  addSelection (filterFunc: (item: Object) => Boolean): void {
+  public addSelection (filterFunc: (item: object) => boolean): void {
     // istanbul ignore if
     // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
       throw Error('[item-list-selector] "addSelection()" accept a function as argument.')
     }
-    const filtedSelection = this.data.filter(item => {
+    const filtedSelection = this.data.filter((item) => {
       return filterFunc(item) && !this.isSelected(item)
     })
     const newSelection = [
@@ -155,16 +140,15 @@ export default class ItemListSelector extends Vue {
   /**
    * 在已选项中匹配命中 filterFunc 的选项
    *
-   * @param {(item: Object) => Boolean} filterFunc 筛选函数，内部应用于 Array.filter()
-   * @memberof ItemListSelector
+   * @param {(item: object) => boolean} filterFunc 筛选函数，内部应用于 Array.filter()
    */
-  removeSelection (filterFunc: (item: Object) => Boolean): void {
+  public removeSelection (filterFunc: (item: object) => boolean): void {
     // istanbul ignore if
     // tslint:disable-next-line
     if (typeof filterFunc !== 'function') {
       throw Error('[item-list-selector] "removeSelection()" accept a function as argument.')
     }
-    const newSelection = this.selection.filter(item => {
+    const newSelection = this.selection.filter((item) => {
       return !filterFunc(item)
     })
     this.$emit('selection-change', newSelection)
@@ -173,9 +157,8 @@ export default class ItemListSelector extends Vue {
   /**
    * 重置组件状态
    *
-   * @memberof ItemListSelector
    */
-  reset (): void {
+  public reset (): void {
     this.curPage = 1
     this.keyword = ''
     this.$emit('selection-change', [])
@@ -183,13 +166,9 @@ export default class ItemListSelector extends Vue {
 
   /**
    * 匹配高亮关键字，用于筛选时生成选项
-   *
-   * @private
-   * @param {string} text 待处理字符
-   * @returns {string} 匹配高亮后的字符
-   * @memberof ItemListSelector
    */
-  highlightMatch (text: string, config: Object): string {
+  // tslint:disable-next-line
+  private highlightMatch (text: string, config: object): string {
     return this.keyword
       ? markMatch(text, this.keyword, config)
       : text
@@ -197,24 +176,16 @@ export default class ItemListSelector extends Vue {
 
   /**
    * 判断选项数据是否处于选中状态
-   *
-   * @private
-   * @param {Object} item 待判断数据
-   * @returns {boolean} 是否处于选中状态
-   * @memberof ItemListSelector
    */
-  isSelected (item: Object): boolean {
+  private isSelected (item: object): boolean {
     return this.selection && this.selection.indexOf(item) > -1
   }
 
   /**
    * 输入框键盘特殊键位处理，包括：上下移动高亮选项、前后翻页、回车选中高亮选项
-   *
-   * @private
-   * @param {KeyboardEvent} e KeyboardEvent
-   * @memberof ItemListSelector
    */
-  handleKeywordInput (e: KeyboardEvent): void {
+  // tslint:disable-next-line
+  private handleKeywordInput (e: KeyboardEvent): void {
     switch (e.keyCode) {
       case 38:
         this.activePrevOptions()
@@ -236,23 +207,20 @@ export default class ItemListSelector extends Vue {
     }
   }
 
-  goPrevPage (): void {
+  private goPrevPage (): void {
     this.optionActiveIndex = -1
     this.curPage = Math.max(this.curPage - 1, 1)
   }
 
-  goNextPage (): void {
+  private goNextPage (): void {
     this.optionActiveIndex = -1
     this.curPage = Math.min(this.curPage + 1, this.totalPage)
   }
 
   /**
    * 往前移动高亮光标
-   *
-   * @private
-   * @memberof ItemListSelector
    */
-  activePrevOptions (): void {
+  private activePrevOptions (): void {
     if (this.optionActiveIndex < 1) {
       this.optionActiveIndex = this.showingData.length - 1
     } else {
@@ -262,11 +230,8 @@ export default class ItemListSelector extends Vue {
 
   /**
    * 往后移动高亮光标
-   *
-   * @private
-   * @memberof ItemListSelector
    */
-  activeNextOptions (): void {
+  private activeNextOptions (): void {
     if (this.optionActiveIndex < this.showingData.length - 1) {
       this.optionActiveIndex++
     } else {
@@ -277,18 +242,15 @@ export default class ItemListSelector extends Vue {
   /**
    * 切换选项选中状态，
    * 用于切换当前高亮选项选中状态、鼠标点击选项
-   *
-   * @private
-   * @memberof ItemListSelector
    */
-  toggleSelection (targetIndex: number): void {
+  private toggleSelection (targetIndex: number): void {
     const item = this.showingData[targetIndex]
     // istanbul ignore if
     if (!item) {
       return
     }
     const index = this.selection.indexOf(item)
-    let newSelection = [...this.selection]
+    const newSelection = [...this.selection]
     if (index > -1) {
       newSelection.splice(index, 1)
       this.$emit('selection-remove', item, newSelection)
