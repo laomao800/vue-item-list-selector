@@ -65,4 +65,16 @@ describe('Options', () => {
     })
     expect(wrapper.findAll('.item-selector__option').length).toEqual(9)
   })
+
+  it('多关键字过滤', () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        data: getTestData()
+      }
+    })
+    wrapper.setData({
+      keyword: '小张01 小刘06 小刘17'
+    })
+    expect(wrapper.findAll('.item-selector__option').length).toEqual(3)
+  })
 })

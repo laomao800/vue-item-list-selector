@@ -84,11 +84,12 @@ export default class ItemListSelector extends Vue {
    * @memberof ItemListSelector
    */
   get filtedData (): Object[] {
-    return this.keyword === ''
-      ? [...this.data]
-      : this.data.filter(r => {
-        return this.optionTemplate(r).toLowerCase().indexOf(this.keyword.toLowerCase()) > -1
-      })
+    if (!this.keyword) {
+      return [...this.data]
+    } else {
+      const keywordReg = RegExp(this.keyword.split(' ').filter(text => text).join('|'), 'gi')
+      return this.data.filter(r => this.optionTemplate(r).match(keywordReg))
+    }
   }
 
   /**

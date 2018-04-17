@@ -11,8 +11,12 @@ export default function markMatch (text: string, keyword: string, config: { tag?
   if (!keyword || !(keyword = keyword.trim())) {
     return text
   } else {
+    const escapedKeywords = keyword.split(' ').filter(text => text).map(text => text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&'))
     const escapedKeyword = keyword.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
-    const reg = new RegExp(escapedKeyword, 'gi')
+    const keywordRegArr = escapedKeywords.length > 1 ? escapedKeywords : []
+    keywordRegArr.push(escapedKeyword)
+
+    const reg = new RegExp(keywordRegArr.join('|'), 'gi')
     return text.replace(reg, match => `<${tag} class="${className}">${match}</${tag}>`)
   }
 }
