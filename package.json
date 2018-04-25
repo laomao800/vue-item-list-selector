@@ -30,7 +30,8 @@
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "tslint": "tslint -p . -s node_modules/custom-tslint-formatters/formatters -t grouped 'src/**/*.ts' 'test/unit/**/*.ts' 'test/e2e/*.ts'",
-    "build": "node build/build.lib.js && node build/build.js"
+    "build": "node build/build.lib.js && node build/build.js",
+    "release": "bash build/release.sh"
   },
   "dependencies": {
     "vue-property-decorator": "^6.0.0"
