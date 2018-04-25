@@ -1,6 +1,6 @@
 {
   "name": "@laomao800/vue-item-list-selector",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "An item selector Vue.js component.",
   "author": "laomao800 <laomao800@gmail.com>",
   "license": "MIT",

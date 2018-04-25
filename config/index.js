@@ -60,7 +60,7 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsLibRoot: path.resolve(__dirname, '../lib'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps
