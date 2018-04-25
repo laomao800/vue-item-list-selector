@@ -77,4 +77,33 @@ describe('Options', () => {
     })
     expect(wrapper.findAll('.item-selector__option').length).toEqual(3)
   })
+
+  describe('特殊字符过滤', () => {
+    const regChar = ['-', '[', ']', '{', '}', '(', ')', '*', '+', '?', '.', ',', '\\', '^', '$', '|', '#']
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        data: regChar.map(char => ({
+          label: char,
+          value: char
+        })),
+        pageSize: 30
+      }
+    })
+
+    regChar.forEach(char => {
+      it(`char check: ${char}`, () => {
+        wrapper.setData({
+          keyword: char
+        })
+        expect(wrapper.findAll('.item-selector__option').length).toEqual(1)
+      })
+    })
+
+    it('char join', () => {
+      wrapper.setData({
+        keyword: regChar.join(' ')
+      })
+      expect(wrapper.findAll('.item-selector__option').length).toEqual(regChar.length)
+    })
+  })
 })

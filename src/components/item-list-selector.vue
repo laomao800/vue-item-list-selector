@@ -87,7 +87,9 @@ export default class ItemListSelector extends Vue {
     if (!this.keyword) {
       return [...this.data]
     } else {
-      const keywordReg = RegExp(this.keyword.split(' ').filter(text => text).join('|'), 'gi')
+      const validKeywords = this.keyword.split(' ').filter(text => text)
+      const correctKeywords = validKeywords.map(keyword => keyword.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')).join('|')
+      const keywordReg = RegExp(correctKeywords, 'gi')
       return this.data.filter(r => this.optionTemplate(r).match(keywordReg))
     }
   }
