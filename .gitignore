@@ -1,11 +1,5 @@
 .DS_Store
 node_modules
-/dist
-
-/tests/unit/coverage/
-
-/tests/e2e/videos/
-/tests/e2e/screenshots/
 
 # local env files
 .env.local
@@ -18,8 +12,8 @@ yarn-error.log*
 
 # Editor directories and files
 .idea
-.vscode
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
+*.sw*
