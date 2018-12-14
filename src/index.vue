@@ -198,11 +198,6 @@ export default {
 
     syncSelection(selection) {
       const newSelection = this.multiple ? selection : selection[0] || {}
-      console.log(
-        JSON.stringify(selection),
-        JSON.stringify(newSelection),
-        JSON.stringify(this.selection)
-      )
       if (!isEqual(newSelection, this.selection)) {
         this.$emit('selection-change', newSelection)
       }
