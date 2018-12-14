@@ -15,7 +15,7 @@
     "serve": "vue-cli-service serve",
     "build:example": "vue-cli-service build --dest demo",
     "build:lib": "vue-cli-service build --target lib --name vue-item-list-selector src/index.vue",
-    "lint": "vue-cli-service lint",
+    "lint": "cross-env NODE_ENV=production vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit",
     "release": "node scripts/release.js"
   },
@@ -44,6 +44,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
+    "cross-env": "^5.2.0",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0-0",
     "less": "^3.0.4",
