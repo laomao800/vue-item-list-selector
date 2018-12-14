@@ -108,13 +108,8 @@ export default {
         )
       }
     },
-    selectionArr: {
-      get() {
-        return this.multiple ? this.selection : [this.selection]
-      },
-      set(val) {
-        this.syncSelection(val)
-      }
+    selectionArr() {
+      return this.multiple ? this.selection : [this.selection]
     }
   },
 
@@ -135,7 +130,7 @@ export default {
 
     // 重置组件状态
     reset() {
-      this.debounceKeyword = ''
+      this.keyword = ''
       this.syncSelection([])
     },
 
@@ -170,7 +165,9 @@ export default {
     },
 
     activePrevOptions() {
-      if (this.optionActiveIndex > 0) {
+      if (this.optionActiveIndex === 0) {
+        this.optionActiveIndex = this.filtedData.length - 1
+      } else {
         this.optionActiveIndex--
       }
     },
@@ -178,6 +175,8 @@ export default {
     activeNextOptions() {
       if (this.optionActiveIndex < this.filtedData.length - 1) {
         this.optionActiveIndex++
+      } else {
+        this.optionActiveIndex = 0
       }
     },
 
@@ -217,6 +216,7 @@ export default {
 
     // 添加当前组件选项值，在原有已选项上添加
     addSelection(filterFunc) {
+      // istanbul ignore if
       if (!this.multiple) {
         // 单选模式下无法使用本方法
         throw Error(
