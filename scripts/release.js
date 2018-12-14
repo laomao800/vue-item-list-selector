@@ -57,8 +57,6 @@ const release = async () => {
       { stdio: 'inherit' }
     )
   }
-
-  require('./gen-changelog')(version)
 }
 
 release().catch(err => {
