@@ -8,7 +8,7 @@ declare class Props extends Vue {
   multiple: boolean
 
   /** 选中值，可通过 v-model 绑定 */
-  selection: object[]
+  selection: object | object[]
 
   /** 无筛选结果提示文字 */
   notFoundText: string

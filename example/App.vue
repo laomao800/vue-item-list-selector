@@ -33,7 +33,7 @@ export default {
   components: { ItemListSelector },
 
   data: () => ({
-    singleSelected: [],
+    singleSelected: {},
     multipleSelected: [],
     listData: Array(6000)
       .fill()

@@ -107,6 +107,14 @@ export default {
             .match(keywordReg)
         )
       }
+    },
+    selectionArr: {
+      get() {
+        return this.multiple ? this.selection : [this.selection]
+      },
+      set(val) {
+        this.syncSelection(val)
+      }
     }
   },
 
@@ -128,7 +136,7 @@ export default {
     // 重置组件状态
     reset() {
       this.debounceKeyword = ''
-      this.$emit('selection-change', [])
+      this.syncSelection([])
     },
 
     // 匹配高亮关键字，用于筛选时生成选项
@@ -140,7 +148,7 @@ export default {
 
     // 判断选项数据是否处于选中状态
     isSelected(item) {
-      return this.selection.indexOf(item) > -1
+      return this.selectionArr.indexOf(item) > -1
     },
 
     // 输入框键盘特殊键位处理
@@ -183,18 +191,18 @@ export default {
         newSelection = [item]
       } else {
         // xor 异或实现选项 toggle 效果
-        newSelection = xor(this.selection, [item])
-        // const isAdd = this.selection.indexOf(item) === -1
-        // this.$emit(
-        //   isAdd ? 'selection-add' : 'selection-remove',
-        //   item,
-        //   newSelection
-        // )
+        newSelection = xor(this.selectionArr, [item])
       }
       this.syncSelection(newSelection)
     },
 
-    syncSelection(newSelection) {
+    syncSelection(selection) {
+      const newSelection = this.multiple ? selection : selection[0] || {}
+      console.log(
+        JSON.stringify(selection),
+        JSON.stringify(newSelection),
+        JSON.stringify(this.selection)
+      )
       if (!isEqual(newSelection, this.selection)) {
         this.$emit('selection-change', newSelection)
       }
@@ -214,6 +222,12 @@ export default {
 
     // 添加当前组件选项值，在原有已选项上添加
     addSelection(filterFunc) {
+      if (!this.multiple) {
+        // 单选模式下无法使用本方法
+        throw Error(
+          '[item-list-selector] "addSelection()" only works on multiple mode.'
+        )
+      }
       // istanbul ignore if
       if (typeof filterFunc !== 'function') {
         throw Error(
@@ -221,7 +235,7 @@ export default {
         )
       }
       const filtedSelection = this.data.filter(filterFunc)
-      const newSelection = union(this.selection, filtedSelection)
+      const newSelection = union(this.selectionArr, filtedSelection)
       this.syncSelection(newSelection)
     },
 
@@ -233,7 +247,7 @@ export default {
           '[item-list-selector] "removeSelection()" accept a function as argument.'
         )
       }
-      const newSelection = this.selection.filter(item => !filterFunc(item))
+      const newSelection = this.selectionArr.filter(item => !filterFunc(item))
       this.syncSelection(newSelection)
     }
   }
