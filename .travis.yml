@@ -12,7 +12,7 @@ before_script:
   - npm install -g codecov
 
 script:
-  - npm run unit
+  - npm run test:unit
   - codecov --token=$CODECOV_TOKEN
 
 deploy:
@@ -24,7 +24,7 @@ deploy:
       tags: true
       repo: laomao800/vue-item-list-selector
   - provider: pages
-    local-dir: dist
+    local-dir: demo
     skip-cleanup: true
     github-token: $GITHUB_TOKEN
     on:
