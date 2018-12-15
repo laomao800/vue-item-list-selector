@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/laomao800/vue-item-list-selector",
   "dependencies": {
+    "compute-scroll-into-view": "^1.0.11",
     "lodash": "^4.17.11",
     "vue": "^2.5.17",
     "vue-virtual-scroll-list": "^1.2.8"

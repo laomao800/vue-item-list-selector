@@ -1,8 +1,15 @@
 <template>
-  <div class="item-selector" @keyup="handleKeyup($event)">
+  <div class="item-selector">
     <div class="item-selector__searchbar">
-      <span v-if="keyword !== ''" class="item-selector__searchbar-clean" @click="keyword = ''" />
-      <input v-model.trim="keyword" type="text" :placeholder="searchText">
+      <span v-if="keyword !== ''" class="item-selector__searchbar-clean" @click="keyword = ''"/>
+      <input
+        v-model.trim="keyword"
+        type="text"
+        :placeholder="searchText"
+        @keydown.up.prevent="activePrevOptions"
+        @keydown.down.prevent="activeNextOptions"
+        @keydown.enter.prevent="toggleSelection"
+      >
     </div>
 
     <div v-if="filtedData.length === 0" class="item-selector__options--empty">{{ notFoundText }}</div>
@@ -42,6 +49,7 @@ import union from 'lodash/union'
 import isEqual from 'lodash/isEqual'
 import throttle from 'lodash/throttle'
 import VirtualList from 'vue-virtual-scroll-list'
+import computeScrollIntoView from 'compute-scroll-into-view'
 import markMatch from './markMatch'
 import './style.less'
 
@@ -146,41 +154,28 @@ export default {
       return this.selectionArr.indexOf(item) > -1
     },
 
-    // 输入框键盘特殊键位处理
-    handleKeyup(e) {
-      switch (e.keyCode) {
-        case 38:
-          e.preventDefault()
-          this.activePrevOptions()
-          break
-        case 40:
-          e.preventDefault()
-          this.activeNextOptions()
-          break
-        case 13:
-          e.preventDefault()
-          this.toggleSelection(this.optionActiveIndex)
-          break
-      }
-    },
-
     activePrevOptions() {
       if (this.optionActiveIndex === 0) {
         this.optionActiveIndex = this.filtedData.length - 1
+        this.startIndex = this.filtedData.length
       } else {
         this.optionActiveIndex--
+        this.scrollActiveOptionToView('prev')
       }
     },
 
     activeNextOptions() {
       if (this.optionActiveIndex < this.filtedData.length - 1) {
         this.optionActiveIndex++
+        this.scrollActiveOptionToView('next')
       } else {
         this.optionActiveIndex = 0
+        this.startIndex = 0
       }
     },
 
-    toggleSelection(targetIndex) {
+    toggleSelection(index) {
+      const targetIndex = index || this.optionActiveIndex
       const item = this.filtedData[targetIndex]
       // istanbul ignore if
       if (!item) return
@@ -199,6 +194,28 @@ export default {
       const newSelection = this.multiple ? selection : selection[0] || {}
       if (!isEqual(newSelection, this.selection)) {
         this.$emit('selection-change', newSelection)
+      }
+    },
+
+    async scrollActiveOptionToView(direction) {
+      await this.$nextTick()
+      const options = this.$refs.options.$el
+      const option = options.querySelector('.item-selector__option--active')
+      if (option) {
+        const actions = computeScrollIntoView(option, {
+          scrollMode: 'if-needed',
+          block: 'nearest',
+          inline: 'nearest'
+        })
+        actions.forEach(({ el, top, left }) => {
+          el.scrollTop = top
+          el.scrollLeft = left
+        })
+      } else {
+        const _factor = direction === 'prev' ? -1 : 1
+        options.scrollTo({
+          top: options.scrollTop + this.optionHeight * _factor
+        })
       }
     },
 
