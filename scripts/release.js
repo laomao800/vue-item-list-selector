@@ -46,7 +46,7 @@ const release = async () => {
   if (yes) {
     await execa('npm', ['run', 'lint'], { stdio: 'inherit' })
     await execa('npm', ['run', 'build:lib'], { stdio: 'inherit' })
-    await execa('npm', ['run', 'build:example'], { stdio: 'inherit' })
+    await execa('npm', ['run', 'build:demo'], { stdio: 'inherit' })
     await execa('git', ['add', 'dist', 'demo'], { stdio: 'inherit' })
     await execa('git', ['commit', '-m', `build: build ${version}`], {
       stdio: 'inherit'
