@@ -12,7 +12,7 @@ before_script:
   - npm install -g codecov
 
 script:
-  - npm run test:unit
+  - npm run test:unit:cover
   - codecov --token=$CODECOV_TOKEN
 
 deploy:

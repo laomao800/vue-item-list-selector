@@ -13,11 +13,13 @@
   ],
   "scripts": {
     "serve": "vue-cli-service serve",
+    "release": "node scripts/release.js",
+    "lint": "cross-env NODE_ENV=production vue-cli-service lint",
     "build:demo": "vue-cli-service build --dest demo",
     "build:lib": "vue-cli-service build --target lib --name vue-item-list-selector src/index.vue",
-    "lint": "cross-env NODE_ENV=production vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit --coverage",
-    "release": "node scripts/release.js"
+    "test:unit": "vue-cli-service test:unit",
+    "test:unit:watch": "vue-cli-service test:unit --watch --notify --notifyMode change",
+    "test:unit:cover": "vue-cli-service test:unit --coverage"
   },
   "author": "laomao800 <laomao800@gmail.com>",
   "license": "MIT",

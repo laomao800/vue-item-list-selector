@@ -15,5 +15,6 @@ module.exports = {
   ],
   collectCoverageFrom: ['src/**/*.{js,vue}'],
   coverageDirectory: '<rootDir>/tests/unit/coverage',
+  transformIgnorePatterns: ['<rootDir>/node_modules/'],
   testURL: 'http://localhost/'
 }
