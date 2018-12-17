@@ -1,15 +1,8 @@
 <template>
-  <div class="item-selector">
+  <div class="item-selector" @keyup="handleKeyup($event)">
     <div class="item-selector__searchbar">
       <span v-if="keyword !== ''" class="item-selector__searchbar-clean" @click="keyword = ''"/>
-      <input
-        v-model.trim="keyword"
-        type="text"
-        :placeholder="searchText"
-        @keydown.up.prevent="activePrevOptions"
-        @keydown.down.prevent="activeNextOptions"
-        @keydown.enter.prevent="toggleSelection"
-      >
+      <input v-model.trim="keyword" type="text" :placeholder="searchText">
     </div>
 
     <div v-if="filtedData.length === 0" class="item-selector__options--empty">{{ notFoundText }}</div>
@@ -152,6 +145,26 @@ export default {
     // 判断选项数据是否处于选中状态
     isSelected(item) {
       return this.selectionArr.indexOf(item) > -1
+    },
+
+    // 输入框键盘特殊键位处理
+    // 由于通过 keyup.up 、 keyup.down 绑定的形式在 @vue/test-utils 内未按预期触发，
+    // 此处使用 keyCode 判断键盘输入
+    handleKeyup(e) {
+      switch (e.keyCode) {
+        case 38:
+          e.preventDefault()
+          this.activePrevOptions()
+          break
+        case 40:
+          e.preventDefault()
+          this.activeNextOptions()
+          break
+        case 13:
+          e.preventDefault()
+          this.toggleSelection(this.optionActiveIndex)
+          break
+      }
     },
 
     activePrevOptions() {
