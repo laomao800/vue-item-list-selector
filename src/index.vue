@@ -175,7 +175,8 @@ export default {
     },
 
     toggleSelection(index) {
-      const targetIndex = index || this.optionActiveIndex
+      const targetIndex =
+        typeof index === 'number' ? index : this.optionActiveIndex
       const item = this.filtedData[targetIndex]
       // istanbul ignore if
       if (!item) return
