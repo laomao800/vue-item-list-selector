@@ -1,0 +1,72 @@
+<template>
+  <div>
+    value: {{ value }}
+    <div class="wrap">
+      <ItemListSelector
+        v-model="value"
+        :options-data="optionsData"
+        label-key="label"
+      />
+      <ItemListSelector
+        v-model="value"
+        :options-data="optionsData"
+        :option-template="option => `${option.value}: ${option.label}`"
+      />
+      <ItemListSelector
+        v-model="value"
+        :options-data="optionsData"
+        :option-template="option => `${option.value}. ${option.label}`"
+      >
+        <template v-slot:option-template="{ option, keyword, selected }">
+          <span
+            v-html="myHighlight(option.label, keyword)"
+            :style="{
+              color: '#04AF7E',
+              fontWeight: selected ? 'bold' : null
+            }"
+          />
+        </template>
+      </ItemListSelector>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      value: [],
+      optionsData: [
+        { label: 'label-1', value: 1 },
+        { label: 'label-2', value: 2 },
+        { label: 'label-3', value: 3 },
+        { label: 'label-4', value: 4 },
+        { label: 'label-5', value: 5 },
+        { label: 'label-6', value: 6 },
+        { label: 'label-7', value: 7 },
+        { label: 'label-8', value: 8 }
+      ]
+    }
+  },
+  methods: {
+    myHighlight(text, keyword) {
+      return keyword
+        ? text.replace(
+            keyword,
+            `<span style="background-color:#ff0">${keyword}</span>`
+          )
+        : text
+    }
+  }
+}
+</script>
+
+<style scoped>
+.wrap {
+  display: flex;
+}
+.wrap > * {
+  flex: 1;
+  margin: 0 20px;
+}
+</style>

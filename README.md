@@ -1,6 +1,6 @@
 # item-list-selector [![Build Status](https://travis-ci.org/laomao800/vue-item-list-selector.svg?branch=master)](https://travis-ci.org/laomao800/vue-item-list-selector) [![codecov](https://codecov.io/gh/laomao800/vue-item-list-selector/branch/master/graph/badge.svg)](https://codecov.io/gh/laomao800/vue-item-list-selector) [![npm](https://img.shields.io/npm/v/@laomao800/vue-item-list-selector.svg)](https://www.npmjs.com/package/@laomao800/vue-item-list-selector)
 
-## 安装
+## Install
 
 ```bash
 # npm
@@ -10,79 +10,64 @@ npm install --save @laomao800/vue-item-list-selector
 yarn add @laomao800/vue-item-list-selector
 ```
 
-## 基础用法
+## Usege
 
 ```vue
 <template>
-  <div id="app">
-    <div style="float:left;width:300px;">
-      <ItemListSelector v-model="selected" :data="listData" />
-    </div>
-    <pre style="overflow:hidden;padding: 0 20px;">{{ selected }}</pre>
-  </div>
+  <ItemListSelector
+    v-model="value"
+    :options-data="optionsData"
+  />
 </template>
 
 <script>
-import ItemListSelector from '@laomao800/vue-item-list-selector'
-
-function randomText(length = 20) {
-  return [...Array(length)]
-    .map(i => (~~(Math.random() * 36)).toString(36))
-    .join('')
-}
+import ItemListSelector from '@laomao800/ItemListSelector'
 
 export default {
-  name: 'App',
   components: { ItemListSelector },
-  data: () => ({
-    selected: [],
-    listData: Array(6000)
-      .fill()
-      .map((v, i) => ({
-        label: `${i} - ${randomText()}`,
-        value: i
-      }))
-  })
+  data() {
+    return {
+      value: [],
+      optionsData: [
+        { label: 'label-1', value: 1 },
+        { label: 'label-2', value: 2 },
+        { label: 'label-3', value: 3 },
+        { label: 'label-4', value: 4 }
+      ]
+    }
+  }
 }
 </script>
 ```
 
-## Props
+## API
 
-| prop           | default            | 说明                        |
-| -------------- | ------------------ | --------------------------- |
-| data           | []                 | 所有待选数据                |
-| multiple       | `true`             | 是否多选                    |
-| selection      | []                 | 选中值，可通过 v-model 绑定 |
-| notFoundText   | '无匹配记录'       | -                           |
-| searchText     | '请输入搜索关键字' | -                           |
-| optionTemplate |                    | 自定义选项展示模板          |
-| optionHeight   | 34                 | 选项样式高度                |
-| optionsRemain  | 6                  | 默认显示选项数量            |
-| optionsBench   | 60                 | 虚拟滚动效果屏幕外选项数量  |
+### Props
 
-```js
-// optionTemplate 默认值
-optionTemplate: option => (option.hasOwnProperty('label') ? option.label : '')
-```
+| Prop           | Type                   | Default                  |
+| -------------- | ---------------------- | ------------------------ |
+| value          | Function               | `[]`                     |
+| optionsData    | Array/Function/Promise | `[]`                     |
+| multiple       | Boolean                | `true`                   |
+| loadingText    | String                 | `'Loading...'`           |
+| notFoundText   | String                 | `'No results'`           |
+| searchText     | String                 | `'Search'`               |
+| splitKeyword   | Boolean                | `true`                   |
+| matchTemplate  | Function               | t => `<mark>${t}</mark>` |
+| labelKey       | String                 | `'label'`                |
+| valueKey       | String                 | `undefined`              |
+| filterMethod   | Function               | `undefined`              |
+| optionTemplate | Function               | `undefined`              |
+| optionHeight   | Number                 | 34                       |
+| optionsRemain  | Number                 | 6                        |
+| optionsBench   | Number                 | 6                        |
 
-## Events
+### Slots
 
-| Event            | 参数         |
-| ---------------- | ------------ |
-| selection-change | newSelection |
+#### `option-template`
 
-## Methods
-
-| Methods         | 参数           | 说明                                     |
-| --------------- | -------------- | ---------------------------------------- |
-| setSelection    | function (row) | 设置选中项，新选中内容会覆盖原有选中内容 |
-| addSelection    | function (row) | 在原选中内容基础上增加选中项             |
-| removeSelection | function (row) | 从选中项中移除数据                       |
-
-每个方法都接受一个过滤函数 function (row) 用于应用选中，参数 `row` 为遍历 prop `data` 的每一行，返回 `true` 则代表命中。
-
-```javascript
-// ...
-this.$refs.itemListSelector.setSelection((row) => row.value === 1)
-```
+| Slot prop | info                              |
+| --------- | --------------------------------- |
+| option    | `optionsData` origin array item   |
+| keyword   | Search keyword                    |
+| selected  | Whether current item was selected |

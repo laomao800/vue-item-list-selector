@@ -8,7 +8,7 @@ module.exports = {
         [
           '@vue/app',
           {
-            useBuiltIns: 'usage',
+            // useBuiltIns: 'usage',
             modules: 'commonjs'
           }
         ]

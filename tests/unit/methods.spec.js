@@ -1,53 +1,70 @@
 import { mount } from '@vue/test-utils'
-import ItemListSelector from '@/index.vue'
-import getTestData from './getTestData.js'
+import ItemListSelector from '@/'
+import getOptions from './__getOptions'
 
 describe('Methods', () => {
-  it('setSelection', () => {
+  it('setValue', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: getTestData()
+        optionsData: getOptions()
       }
     })
-    const filterFunc = r => r.value.toString()[0] === '0'
-    wrapper.vm.setSelection(filterFunc)
-    expect(wrapper.emittedByOrder().length).toEqual(1)
-    expect(wrapper.emittedByOrder()[0].name).toEqual('selection-change')
-    expect(wrapper.emittedByOrder()[0].args[0].every(filterFunc)).toBeTruthy()
+    const filterFunc = r => r.value === '01'
+    wrapper.vm.setValue(filterFunc)
+    const inputEvents = wrapper.emitted()['input']
+    expect(inputEvents.length).toEqual(1)
+    expect(inputEvents[0][0].every(filterFunc)).toBeTruthy()
   })
 
-  it('addSelection', () => {
+  it('addValue', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: getTestData()
+        optionsData: getOptions()
       }
     })
-    wrapper.vm.addSelection(r => r.value.toString() === '10')
-    wrapper.vm.addSelection(r => r.value.toString() === '20')
-    expect(wrapper.emitted()['selection-change'].length).toEqual(2)
-    expect(
-      wrapper.emitted()['selection-change'][0][0][0].value.toString()
-    ).toEqual('10')
-    expect(
-      wrapper.emitted()['selection-change'][1][0][0].value.toString()
-    ).toEqual('20')
+    wrapper.vm.addValue(r => r.value === '10')
+    wrapper.vm.addValue(r => r.value === '20')
+    const inputEvents = wrapper.emitted()['input']
+    expect(inputEvents.length).toEqual(2)
+    expect(inputEvents[1][0][0].value).toEqual('10')
+    expect(inputEvents[1][0][1].value).toEqual('20')
   })
 
-  it('removeSelection', () => {
+  it('removeValue', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: getTestData()
+        optionsData: getOptions()
       }
     })
-    wrapper.vm.addSelection(r => r.value.toString() === '10')
+    wrapper.vm.addValue(r => r.value === '10')
     wrapper.setProps({
-      selection: wrapper.emitted()['selection-change'][0][0]
+      value: wrapper.emitted()['input'][0][0]
     })
-    wrapper.vm.removeSelection(r => r.value.toString() === '10')
-    expect(wrapper.emitted()['selection-change'].length).toEqual(2)
-    expect(
-      wrapper.emitted()['selection-change'][0][0][0].value.toString()
-    ).toEqual('10')
-    expect(wrapper.emitted()['selection-change'][1][0]).toEqual([])
+    wrapper.vm.removeValue(r => r.value === '10')
+    const inputEvents = wrapper.emitted()['input']
+    expect(inputEvents.length).toEqual(2)
+    expect(inputEvents[0][0][0].value).toEqual('10')
+    expect(inputEvents[1][0]).toEqual([])
+  })
+
+  it('reset', () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        valueKey: 'value',
+        optionsData: getOptions()
+      }
+    })
+    wrapper.setData({
+      keyword: 'label-01'
+    })
+    wrapper.setProps({
+      value: ['01']
+    })
+    wrapper.vm.reset()
+    const emitted = wrapper.emittedByOrder()
+    expect(wrapper.vm.keyword).toEqual('')
+    expect(emitted.length).toEqual(1)
+    expect(emitted[0].name).toEqual('input')
+    expect(emitted[0].args[0]).toEqual([])
   })
 })

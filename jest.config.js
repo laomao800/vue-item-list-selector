@@ -13,8 +13,8 @@ module.exports = {
   testMatch: [
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
   ],
-  collectCoverageFrom: ['src/**/*.{js,vue}'],
+  collectCoverageFrom: ['src/ItemListSelector.vue'],
   coverageDirectory: '<rootDir>/tests/unit/coverage',
-  transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  transformIgnorePatterns: ['/node_modules/(?!@babel)'],
   testURL: 'http://localhost/'
 }

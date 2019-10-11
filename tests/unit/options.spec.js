@@ -1,25 +1,47 @@
+import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import ItemListSelector from '@/index.vue'
-import getTestData from './getTestData.js'
+import ItemListSelector from '@/'
+import getOptions from './__getOptions'
 
-describe('Options', () => {
-  it('optionTemplate - 默认', () => {
+const optionsData = getOptions()
+
+describe('Option render', () => {
+  it('empty', () => {
+    const wrapper = mount(ItemListSelector)
+    expect(wrapper.findAll('.item-selector__option').length).toBe(0)
+  })
+
+  it('default', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: getTestData()
+        optionsData
       }
     })
     Array.from(
       wrapper.vm.$el.querySelectorAll('.item-selector__option')
-    ).forEach((row, index) => {
-      expect(row.innerHTML).toEqual(wrapper.vm.data[index].label)
+    ).forEach((el, index) => {
+      expect(el.textContent).toBe(wrapper.vm.optionsData[index].label)
     })
   })
 
-  it('optionTemplate - 自定义格式', () => {
+  it(':labelKey', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: getTestData(),
+        optionsData,
+        labelKey: 'value'
+      }
+    })
+    Array.from(
+      wrapper.vm.$el.querySelectorAll('.item-selector__option')
+    ).forEach((el, index) => {
+      expect(el.textContent).toBe(wrapper.vm.optionsData[index].value)
+    })
+  })
+
+  it(':optionTemplate', () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        optionsData,
         optionTemplate(option) {
           return `${option.label}---${option.value}`
         }
@@ -28,62 +50,78 @@ describe('Options', () => {
     Array.from(
       wrapper.vm.$el.querySelectorAll('.item-selector__option')
     ).forEach((row, index) => {
-      expect(row.innerHTML).toEqual(
-        `${wrapper.vm.data[index].label}---${wrapper.vm.data[index].value}`
+      const option = wrapper.vm.optionsData[index]
+      expect(row.innerHTML).toBe(
+        `<span>${option.label}---${option.value}</span>`
       )
     })
   })
 
-  it('关键字过滤', () => {
+  it('slot: option-template', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: getTestData()
+        optionsData,
+        optionTemplate: option => `${option.label}: ${option.value}`
+      }
+    })
+    Array.from(
+      wrapper.vm.$el.querySelectorAll('.item-selector__option')
+    ).forEach((el, index) => {
+      const option = wrapper.vm.optionsData[index]
+      expect(el.textContent).toBe(`${option.label}: ${option.value}`)
+    })
+  })
+})
+
+describe('Option search', () => {
+  it('Single keyword', () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        optionsData
+      }
+    })
+    wrapper.setData({ debounceKeyword: 'label-1' })
+    expect(wrapper.findAll('.item-selector__option').length).toBe(10)
+  })
+
+  it('Multiple Keyword', () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        optionsData
       }
     })
     wrapper.setData({
-      keyword: 'data-1'
+      debounceKeyword: 'label-01 10 20'
     })
-    expect(wrapper.findAll('.item-selector__option').length).toEqual(10)
+    expect(wrapper.findAll('.item-selector__option').length).toBe(3)
   })
 
-  it('多关键字过滤', done => {
+  it('Unsplit keyword', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: getTestData()
+        optionsData: [
+          { label: 'label 01', value: '01' },
+          { label: 'label 02', value: '02' }
+        ],
+        splitKeyword: false
       }
     })
     wrapper.setData({
-      keyword: 'data-01 data-10 data-20'
+      debounceKeyword: 'label 01'
     })
-    setTimeout(() => {
-      expect(wrapper.findAll('.item-selector__option').length).toEqual(3)
-      done()
-    }, 200)
+    expect(wrapper.findAll('.item-selector__option').length).toBe(1)
   })
 
-  describe('特殊字符过滤', () => {
+  describe('Special chars', () => {
+    // prettier-ignore
     const regChar = [
-      '-',
-      '[',
-      ']',
-      '{',
-      '}',
-      '(',
-      ')',
-      '*',
-      '+',
-      '?',
-      '.',
-      ',',
-      '\\',
-      '^',
-      '$',
-      '|',
-      '#'
+      '-', '[', ']', '{', '}', '(', ')', '*', '+',
+      '?', '.', ',', '\\', '^', '$', '|', '#'
     ]
     const wrapper = mount(ItemListSelector, {
       propsData: {
-        data: regChar.map(char => ({
+        multiple: false,
+        optionsData: regChar.map(char => ({
           label: char,
           value: char
         })),
@@ -92,27 +130,80 @@ describe('Options', () => {
     })
 
     regChar.forEach(char => {
-      it(`char check: ${char}`, done => {
+      it(`char check: ${char}`, () => {
         wrapper.setData({
-          keyword: char
+          debounceKeyword: char
         })
-        setTimeout(() => {
-          expect(wrapper.findAll('.item-selector__option').length).toEqual(1)
-          done()
-        }, 200)
+        expect(wrapper.vm.filtedData.length).toBe(1)
       })
     })
 
-    it('char join', done => {
+    it('char join', () => {
       wrapper.setData({
-        keyword: regChar.join(' ')
+        debounceKeyword: regChar.join(' ')
       })
-      setTimeout(() => {
-        expect(wrapper.findAll('.item-selector__option').length).toEqual(
-          regChar.length
-        )
-        done()
-      }, 200)
+      expect(wrapper.vm.filtedData.length).toBe(regChar.length)
     })
+  })
+})
+
+describe('Filter method', () => {
+  const filterMethodSpy = jest.fn().mockName('filterMethodSpy')
+  const wrapper = mount(ItemListSelector, {
+    propsData: {
+      optionsData,
+      filterMethod: (option, keyword) => {
+        filterMethodSpy(option, keyword)
+        return `label-${option.value}` === keyword
+      }
+    }
+  })
+  wrapper.setData({ debounceKeyword: 'label-10' })
+
+  it('Call by all options', () => {
+    expect(filterMethodSpy.mock.calls.length).toBe(optionsData.length)
+  })
+  it('Arguments', () => {
+    expect(filterMethodSpy.mock.calls).toEqual(
+      optionsData.map(option => [option, 'label-10'])
+    )
+  })
+  it('Filte result', () => {
+    expect(wrapper.findAll('.item-selector__option').length).toBe(1)
+  })
+})
+
+describe('Async option', () => {
+  const options = getOptions()
+
+  it('promise', async () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        optionsData: new Promise(resolve => {
+          resolve(options)
+        })
+      }
+    })
+    await Vue.nextTick()
+    expect(wrapper.vm.internalOptions).toEqual(options)
+  })
+
+  it('callback', () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        optionsData: done => done(options)
+      }
+    })
+    expect(wrapper.vm.internalOptions).toEqual(options)
+  })
+
+  it('async function', async () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        optionsData: async () => options
+      }
+    })
+    await Vue.nextTick()
+    expect(wrapper.vm.internalOptions).toEqual(options)
   })
 })
