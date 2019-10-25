@@ -1,8 +1,7 @@
 language: node_js
-if: tag IS present
 
 node_js:
-  - 9
+  - node
 
 cache:
   directories:
@@ -16,15 +15,15 @@ script:
   - codecov --token=$CODECOV_TOKEN
 
 deploy:
+  - provider: pages
+    local-dir: docs/.vuepress/dist
+    skip-cleanup: true
+    github-token: $GITHUB_TOKEN
+    on:
+      branch: master
   - provider: npm
     email: laomao800@gmail.com
     api_key: $NPM_TOKEN
     on:
       tags: true
       repo: laomao800/vue-item-list-selector
-  - provider: pages
-    local-dir: demo
-    skip-cleanup: true
-    github-token: $GITHUB_TOKEN
-    on:
-      branch: master

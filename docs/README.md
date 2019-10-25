@@ -92,29 +92,45 @@
 
 </demo-box>
 
+### 与 vue-select-wrapper
+
+<demo-box title="与 vue-select-wrapper">
+
+与 [vue-select-wrapper](https://github.com/laomao800/vue-select-wrapper) 配合使用。
+
+<example-5 slot="demo" />
+
+<div slot="code">
+
+<<< docs/.vuepress/components/example/5.vue
+
+</div>
+
+</demo-box>
+
 </client-only>
 
 ## API
 
 ### Props
 
-| Prop           | Type                   | Default                  |
-| -------------- | ---------------------- | ------------------------ |
-| value          | Function               | `[]`                     |
-| optionsData    | Array/Function/Promise | `[]`                     |
-| multiple       | Boolean                | `true`                   |
-| loadingText    | String                 | `'Loading...'`           |
-| notFoundText   | String                 | `'No results'`           |
-| searchText     | String                 | `'Search'`               |
-| splitKeyword   | Boolean                | `true`                   |
-| matchTemplate  | Function               | t => `<mark>${t}</mark>` |
-| labelKey       | String                 | `'label'`                |
-| valueKey       | String                 | `undefined`              |
-| filterMethod   | Function               | `undefined`              |
-| optionTemplate | Function               | `undefined`              |
-| optionHeight   | Number                 | 34                       |
-| optionsRemain  | Number                 | 6                        |
-| optionsBench   | Number                 | 6                        |
+| Prop           | Type                   | Default                                |
+| -------------- | ---------------------- | -------------------------------------- |
+| value          | Function               | `[]`                                   |
+| optionsData    | Array/Function/Promise | `[]`                                   |
+| multiple       | Boolean                | `true`                                 |
+| loadingText    | String                 | `'Loading...'`                         |
+| notFoundText   | String                 | `'No results'`                         |
+| searchText     | String                 | `'Search'`                             |
+| splitKeyword   | Boolean                | `true`                                 |
+| matchTemplate  | Function               | t => \`&lt;mark&gt;${t}&lt;/mark&gt;\` |
+| labelKey       | String                 | `'label'`                              |
+| valueKey       | String                 | `undefined`                            |
+| filterMethod   | Function               | `undefined`                            |
+| optionTemplate | Function               | `undefined`                            |
+| optionHeight   | Number                 | 34                                     |
+| optionsRemain  | Number                 | 6                                      |
+| optionsBench   | Number                 | 6                                      |
 
 ### Slots
 

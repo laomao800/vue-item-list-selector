@@ -879,10 +879,23 @@
   resolved "https://registry.npmjs.org/@laomao800/mark-match/-/mark-match-1.1.0.tgz#e430b3e6e369db1fcd3f059da20e7a7d01bd256b"
   integrity sha512-OBqYRLiy4lLqSYOxIMY9JyOfSrJP2zBJKt9sjl9ClOV9MWip3N+JbihQY4x+wk7EASfAn0wWkMngWq1JoZG6zw==
 
+"@laomao800/parse-size-with-unit@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@laomao800/parse-size-with-unit/-/parse-size-with-unit-1.0.0.tgz#754f8eb50462b56afb3367df6a21502f08676e40"
+  integrity sha512-WplWPFgHRRr1CguXGScD38DdkQIGGPxkHZt0FgE5BnJO+46ERh5ML1U3bcwQUnVWRs5bs1KVJUSQdMdepAHkkg==
+
 "@laomao800/vue-demo-box@^1.1.5":
   version "1.1.5"
   resolved "https://registry.npmjs.org/@laomao800/vue-demo-box/-/vue-demo-box-1.1.5.tgz#cd4a59cf11fab46511b80075d503dddaa0801629"
   integrity sha512-dCxYjahiLzEefvGVSfHQLBLSdT6eRfMDrJTciHBjUyAY3W2kmIVaTN8E+3raVYS3szijzuNmbtrrtRwFktDz0A==
+
+"@laomao800/vue-select-wrapper@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@laomao800/vue-select-wrapper/-/vue-select-wrapper-1.2.0.tgz#2a28c3bcf22d000002fb85662d4add8cfb4405cc"
+  integrity sha512-9Dt1T84af8TOMAg5GW3ji349w2HoVnesJeqGgNteSLA5K4gSsXZV+XDRkI+Zar/LcTsSxoHJK2OHBqPHC+2V+Q==
+  dependencies:
+    "@laomao800/parse-size-with-unit" "^1.0.0"
+    has-values "^2.0.1"
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -5808,6 +5821,13 @@ has-values@^1.0.0:
   dependencies:
     is-number "^3.0.0"
     kind-of "^4.0.0"
+
+has-values@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/has-values/-/has-values-2.0.1.tgz#3876200ff86d8a8546a9264a952c17d5fc17579d"
+  integrity sha512-+QdH3jOmq9P8GfdjFg0eJudqx1FqU62NQJ4P16rOEHeRdl7ckgwn6uqQjzYE0ZoHVV/e5E2esuJ5Gl5+HUW19w==
+  dependencies:
+    kind-of "^6.0.2"
 
 has@^1.0.0, has@^1.0.1:
   version "1.0.3"

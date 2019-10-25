@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@laomao800/vue-demo-box": "^1.1.5",
+    "@laomao800/vue-select-wrapper": "^1.2.0",
     "@vue/cli-plugin-babel": "^3.2.0",
     "@vue/cli-plugin-eslint": "^3.2.0",
     "@vue/cli-plugin-unit-jest": "^3.2.0",
