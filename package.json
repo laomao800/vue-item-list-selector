@@ -39,12 +39,13 @@
     "vue-virtual-scroll-list": "^1.2.8"
   },
   "devDependencies": {
-    "@laomao800/vue-demo-box": "^1.1.5",
+    "@laomao800/vue-demo-box": "^1.1.6",
     "@laomao800/vue-select-wrapper": "^1.2.0",
     "@vue/cli-plugin-babel": "^4.0.5",
     "@vue/cli-plugin-eslint": "^4.0.5",
     "@vue/cli-plugin-unit-jest": "^4.0.5",
     "@vue/cli-service": "^4.0.5",
+    "@vue/eslint-config-prettier": "^5.0.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "autoprefixer": "^9.6.4",
     "babel-core": "7.0.0-bridge.0",
