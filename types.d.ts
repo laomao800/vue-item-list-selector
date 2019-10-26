@@ -1,31 +1,55 @@
 import Vue, { VueConstructor } from 'vue'
 
-declare class Props extends Vue {
-  /** 所有待选数据 */
-  data: object[]
+type optionsArr = Array<any>
+type doneCallback = (arr: optionsArr) => void
 
-  /** 是否多选 */
+declare class Props extends Vue {
+  /** Binding value */
+  value: any
+
+  /** Array of options */
+  optionsData:
+    | optionsArr
+    | Promise<optionsArr>
+    | ((done: doneCallback) => optionsArr | undefined)
+
+  /** Multi-select mode */
   multiple: boolean
 
-  /** 选中值，可通过 v-model 绑定 */
-  selection: object | object[]
+  /** Text display when async `optionsData` resolving data. */
+  loadingText: string
 
-  /** 无筛选结果提示文字 */
+  /** Text display when no matching search results. */
   notFoundText: string
 
-  /** 搜索输入框占位文字 */
+  /** Search text input's Placeholder */
   searchText: string
 
-  /** 自定义选项展示模板 */
+  /** Whether to use space-separated keywords when searching. */
+  splitKeyword: boolean
+
+  /** Matching text formatter */
+  matchTemplate: (text: string) => string
+
+  /** Specify the label text property while `optionsData` item is an object. */
+  labelKey: string
+
+  /** Specify the binding `value/v-model` property while `optionsData` item is an object. */
+  valueKey: string
+
+  /** Custom option label format function */
   optionTemplate: (option: any) => string
 
-  /** 选项样式高度 */
+  /** Custom item filter method */
+  filterMethod: (option: any, keyword: string) => boolean
+
+  /** Each list item height. Use to calculate the virtual-list outside container viewport. */
   optionHeight: number
 
-  /** 默认显示选项数量 */
+  /** How many items should be shown in virtual-list viewport. */
   optionsRemain: number
 
-  /** 虚拟滚动效果屏幕外选项数量 */
+  /** How many items not show in virtual-list viewport but exist in real DOM. */
   optionsBench: number
 }
 
