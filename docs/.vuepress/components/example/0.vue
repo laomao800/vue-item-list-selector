@@ -8,18 +8,12 @@
         label-key="label"
       />
       <br />
-      <br />
-      {{ value1 }}
+      value: {{ value1 }}
     </div>
     <div>
-      <ItemListSelector
-        v-model="value2"
-        :options-data="optionsData"
-        label-key="label"
-      />
+      <ItemListSelector v-model="value2" :options-data="optionsData" label-key="label" />
       <br />
-      <br />
-      {{ value2 }}
+      value: {{ value2 }}
     </div>
   </div>
 </template>

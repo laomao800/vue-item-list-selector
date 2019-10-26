@@ -158,7 +158,7 @@ export default {
           filterMethod = (option, kw) => {
             let optionStr
             try {
-              optionStr = this.optionToString(option, kw).toString()
+              optionStr = this.optionToString(option).toString()
             } catch (e) {}
             return optionStr && matchFn(optionStr, kw)
           }

@@ -1,14 +1,18 @@
+---
+sidebar: auto
+---
+
 # Vue item list selector
 
-## 演示
+## Example
 
-### 支持多选与单选
+### Single/Multiple select
 
 <client-only>
 
-<demo-box title="单选/多选">
+<demo-box title="Single/Multiple">
 
-通过 `multiple` 切换选择模式。多选模式下 `value/v-model` 需为数组格式。
+The value should be an array when multi-select mode.
 
 <example-0 slot="demo" />
 
@@ -20,13 +24,13 @@
 
 </demo-box>
 
-### 基础数据类型
+### Primitive values
 
-<demo-box title="基础数据类型">
+<demo-box title="Primitive values">
 
-若传入基础数据类型会自动生成选项数据。
+Primitive values will automatically use as the label and value.
 
-**另外搜索功能支持空格分隔关键字，试试输入 _lab 2_**
+**Filter method supports space-separated keywords by default, try typing _lab 2_**
 
 <example-1 slot="demo" />
 
@@ -38,15 +42,15 @@
 
 </demo-box>
 
-### 自定义选项格式
+### Custom label text
 
-<demo-box title="自定义选项格式">
+<demo-box title="Custom label text">
 
-可通过 `label-key` 设置使用哪个属性展示为属性文本。若单一属性不满足，可通过 Prop `option-template` 进行自定义返回文本。
+Use the `value-key` to set which property to use as the selected value.
 
-若要自定义选项结构，可通过 slot `option-template` 设置自定义结构，注意通过这种方式设置的选项不带有搜索关键字高亮效果，需自行通过插槽 Prop 提供的 `option` 与 `keyword` 属性自行实现，另外可通过 `selected` 判断是否为选中项。
+You can set the custom option html through slot `option-template`. Note that the options set in this way do not have the search keyword highlighting effect. You need to use the slot Prop `option` and `keyword` to make by yourself.
 
-**注意：搜索结果是通过匹配 `label-key` 或 Prop `option-template` 最终返回值是否包含关键字作为搜索命中条件。因此通过 slot 设置自定义选项格式的时候，依然可设置这 2 个属性提供给搜索功能使用。**
+**Note: The filter method search result is by matching `label-key` or prop `option-template` whether the final return value contains a keyword as a search hit condition. Therefore, when setting the custom option format through the slot, these two props can still be set for use by the filter method. **
 
 <example-2 slot="demo" />
 
@@ -58,13 +62,13 @@
 
 </demo-box>
 
-### 自定义选中值
+### Custom value
 
-<demo-box title="自定义选中值">
+<demo-box title="Custom value">
 
-通过 `value-key` 设置使用哪个属性作为选中值，若不传会获取到单个选项的完整 Object 数据。
+Use the `value-key` to set which property to use as the selected value. If not, it will get the origin object by default.
 
-若有设置该 Prop ，会将当前 v-model 内绑定的基础类型数据尝试进行识别，可用于要对组件设置默认值的场景。
+While this prop was present, the `v-model` will try to filter the matching options as the default value.
 
 <example-3 slot="demo" />
 
@@ -76,11 +80,11 @@
 
 </demo-box>
 
-### 异步选项
+### async optionsData
 
-<demo-box title="异步选项">
+<demo-box title="async optionsData">
 
-`optionsData` 支持多种异步方式填充数据。
+`optionsData` could also be a Promise/Function
 
 <example-4 slot="demo" />
 
@@ -92,11 +96,11 @@
 
 </demo-box>
 
-### 与 vue-select-wrapper
+### Work with vue-select-wrapper
 
-<demo-box title="与 vue-select-wrapper">
+<demo-box title="Work with vue-select-wrapper">
 
-与 [vue-select-wrapper](https://github.com/laomao800/vue-select-wrapper) 配合使用。
+Work with [vue-select-wrapper](https://github.com/laomao800/vue-select-wrapper)
 
 <example-5 slot="demo" />
 
@@ -110,34 +114,153 @@
 
 </client-only>
 
-## API
+## Props
 
-### Props
+### value/v-model
 
-| Prop           | Type                   | Default                                |
-| -------------- | ---------------------- | -------------------------------------- |
-| value          | Function               | `[]`                                   |
-| optionsData    | Array/Function/Promise | `[]`                                   |
-| multiple       | Boolean                | `true`                                 |
-| loadingText    | String                 | `'Loading...'`                         |
-| notFoundText   | String                 | `'No results'`                         |
-| searchText     | String                 | `'Search'`                             |
-| splitKeyword   | Boolean                | `true`                                 |
-| matchTemplate  | Function               | t => \`&lt;mark&gt;${t}&lt;/mark&gt;\` |
-| labelKey       | String                 | `'label'`                              |
-| valueKey       | String                 | `undefined`                            |
-| filterMethod   | Function               | `undefined`                            |
-| optionTemplate | Function               | `undefined`                            |
-| optionHeight   | Number                 | 34                                     |
-| optionsRemain  | Number                 | 6                                      |
-| optionsBench   | Number                 | 6                                      |
+- type: Function
+- default: `[]`
 
-### Slots
+Binding value. Should be an array when multi-select mode.
 
-#### `option-template`
+### optionsData
 
-| Slot prop | info                               |
-| --------- | ---------------------------------- |
-| option    | `optionsData` 单条选项的原始数据项 |
-| keyword   | 当前搜索关键字                     |
-| selected  | 当条选项是否为选中状态             |
+- type: Array/Promise/Function
+- default: `[]`
+
+The array of options. When the item is the object, it can work with `labelKey` and `valueKey` to configure the option text property and the property to be submitted to value.
+
+When the type is a function, it can return directly or use the callback function in the params to resolve the result.
+
+```js
+{
+  optionsData: (done) => {
+    const result = []
+    // return result
+    // or
+    // some sync/async works
+    done(result)
+  }
+}
+```
+
+### multiple
+
+- type: Boolean
+- default: `true`
+
+Whether multi-select mode
+
+### loadingText
+
+- type: String
+- default: `'Loading...'`
+
+Text display when async `optionsData` resolving data.
+
+### notFoundText
+
+- type: String
+- default: `'No results'`
+
+Text display when no matching search results.
+
+### searchText
+
+- type: String
+- default: `'Search'`
+
+Search text input's Placeholder
+
+### splitKeyword
+
+- type: Boolean
+- default: `true`
+
+Whether to use space-separated keywords when searching.
+
+### matchTemplate
+
+- type: Function
+- default: t => \`&lt;mark&gt;${t}&lt;/mark&gt;\`
+
+Matching text formatter.
+
+### labelKey
+
+- type: String
+- default: `'label'`
+
+Specify the label text property while `optionsData` item is an object.
+
+If `optionTemplate` is not configured, the property value will also be used as the search text of the internal default filter method.
+
+### valueKey
+
+- type: String
+- default: `undefined`
+
+Specify the binding `value/v-model` property while `optionsData` item is an object.
+
+You can also use this property to help bind default values:
+
+```js
+data() {
+  return {
+    value: 1
+    optionsData: [
+      { label: 'label-1', value: 1 },
+      { label: 'label-2', value: 2 }
+    ]
+  }
+}
+```
+
+### optionTemplate
+
+- type: Function
+- default: `undefined`
+- params: (option)
+
+Custom option label format function. Should return a string, and the return content will also use as a search text for the internal default filter method.
+
+To customize the option's html content should use the slot [option-template](#option-template) .
+
+### filterMethod
+
+- type: Function
+- default: `undefined`
+- params: (option, keyword)
+
+Custom item filter method. Param `option` is item from options array, `keyword` is the current query keyword. Return `true` to match the option. Internal default filter method was [@laomao800/mark-match](https://github.com/laomao800/mark-match) .
+
+### optionHeight
+
+- type: Number
+- default: `34`
+
+Each list item height. Use to calculate the virtual-list outside container viewport.
+
+### optionsRemain
+
+- type: Number
+- default: `6`
+
+How many items should be shown in virtual-list viewport.
+
+### optionsBench
+
+- type: Number
+- default: `6`
+
+How many items not show in virtual-list viewport but exist in real DOM.
+
+## Slots
+
+### `option-template`
+
+| Slot prop | info                              |
+| --------- | --------------------------------- |
+| option    | `optionsData` origin array item   |
+| keyword   | Search keyword                    |
+| selected  | Whether current item was selected |
