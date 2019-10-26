@@ -2,7 +2,7 @@
   <div>
     value: {{ value }}
     <div class="wrap">
-      <ItemListSelector
+      <item-list-selector
         v-model="value"
         :options-data="optionsData"
         label-key="label"

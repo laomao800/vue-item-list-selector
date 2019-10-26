@@ -2,17 +2,13 @@
   <div>
     value: {{ value }}
     <div class="wrap">
-      <ItemListSelector
-        v-model="value"
-        :options-data="optionsData"
-        label-key="label"
-      />
-      <ItemListSelector
+      <item-list-selector v-model="value" :options-data="optionsData" label-key="label" />
+      <item-list-selector
         v-model="value"
         :options-data="optionsData"
         :option-template="option => `${option.value}: ${option.label}`"
       />
-      <ItemListSelector
+      <item-list-selector
         v-model="value"
         :options-data="optionsData"
         :option-template="option => `${option.value}. ${option.label}`"
@@ -26,7 +22,7 @@
             }"
           />
         </template>
-      </ItemListSelector>
+      </item-list-selector>
     </div>
   </div>
 </template>

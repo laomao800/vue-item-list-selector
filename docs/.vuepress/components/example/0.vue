@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
     <div>
-      <ItemListSelector
+      <item-list-selector
         v-model="value1"
         :options-data="optionsData"
         :multiple="false"
@@ -11,7 +11,7 @@
       value: {{ value1 }}
     </div>
     <div>
-      <ItemListSelector v-model="value2" :options-data="optionsData" label-key="label" />
+      <item-list-selector v-model="value2" :options-data="optionsData" label-key="label" />
       <br />
       value: {{ value2 }}
     </div>

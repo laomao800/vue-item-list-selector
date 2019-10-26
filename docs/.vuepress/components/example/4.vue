@@ -5,21 +5,21 @@
         <button @click="loadOptions1">From promise</button>
         <button @click="() => optionsData1 = []">Reset</button>
       </div>
-      <ItemListSelector v-model="value1" :options-data="optionsData1" label-key="label" />
+      <item-list-selector v-model="value1" :options-data="optionsData1" label-key="label" />
     </div>
     <div>
       <div style="text-align:center;">
         <button @click="loadOptions2">From callback</button>
         <button @click="() => optionsData2 = []">Reset</button>
       </div>
-      <ItemListSelector v-model="value2" :options-data="optionsData2" label-key="label" />
+      <item-list-selector v-model="value2" :options-data="optionsData2" label-key="label" />
     </div>
     <div>
       <div style="text-align:center;">
         <button @click="loadOptions3">From async function</button>
         <button @click="() => optionsData3 = []">Reset</button>
       </div>
-      <ItemListSelector v-model="value3" :options-data="optionsData3" label-key="label" />
+      <item-list-selector v-model="value3" :options-data="optionsData3" label-key="label" />
     </div>
   </div>
 </template>

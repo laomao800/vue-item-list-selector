@@ -3,7 +3,7 @@
     value: {{ value }}
     <br />
     <br />
-    <SelectWrapper
+    <select-wrapper
       v-model="value"
       :multiple="true"
       placeholder="Select Items"
@@ -11,13 +11,13 @@
       @visible-change="onVisibleChange"
     >
       <template #value-template="{ value }">{{ value }}</template>
-      <ItemListSelector
+      <item-list-selector
         ref="itemListSelector"
         v-model="value"
         :options-data="optionsData"
         value-key="value"
       />
-    </SelectWrapper>
+    </select-wrapper>
   </div>
 </template>
 

@@ -2,11 +2,7 @@
   <div>
     value: {{ value }}
     <br />
-    <ItemListSelector
-      v-model="value"
-      :options-data="optionsData"
-      style="width:320px;"
-    />
+    <item-list-selector v-model="value" :options-data="optionsData" style="width:320px;" />
   </div>
 </template>
 
