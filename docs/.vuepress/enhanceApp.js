@@ -17,4 +17,11 @@ export default ({ Vue }) => {
       })
     })
     .catch(e => {})
+
+    import('@laomao800/vue-select-wrapper')
+    .then(module => {
+      const SelectWrapper = module.default
+      Vue.use(SelectWrapper)
+    })
+    .catch(e => {})
 }

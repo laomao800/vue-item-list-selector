@@ -98,7 +98,7 @@ While this prop was present, the `v-model` will try to filter the matching optio
 
 ### Work with vue-select-wrapper
 
-<demo-box title="Work with vue-select-wrapper">
+<demo-box title="Work with vue-select-wrapper" :js-res="['//unpkg.com/@laomao800/vue-select-wrapper@1.x/dist/vue-select-wrapper.umd.min.js']">
 
 Work with [vue-select-wrapper](https://github.com/laomao800/vue-select-wrapper)
 

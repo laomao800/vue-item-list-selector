@@ -29,10 +29,6 @@ function _randomText(length = 20) {
 }
 
 export default {
-  components: {
-    SelectWrapper: () => import('@laomao800/vue-select-wrapper')
-  },
-
   data() {
     return {
       value: [1, 3, 5],
