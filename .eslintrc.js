@@ -3,23 +3,10 @@ module.exports = {
   env: {
     node: true
   },
-  'extends': [
-    'plugin:vue/essential',
-    '@vue/standard'
-  ],
+  extends: ['plugin:vue/essential', '@vue/prettier'],
   rules: {
-    // https://github.com/prettier/prettier/issues/3847
-    'space-before-function-paren': 0,
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'vue/html-closing-bracket-spacing': [
-      'off',
-      {
-        startTag: 'never',
-        endTag: 'never',
-        selfClosingTag: 'always'
-      }
-    ]
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   },
   parserOptions: {
     parser: 'babel-eslint'
