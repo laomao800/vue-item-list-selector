@@ -39,7 +39,7 @@
     "vue-virtual-scroll-list": "^1.2.8"
   },
   "devDependencies": {
-    "@laomao800/vue-demo-box": "^1.1.6",
+    "@laomao800/vue-demo-box": "^1.1.7",
     "@laomao800/vue-select-wrapper": "^1.2.0",
     "@vue/cli-plugin-babel": "^4.0.5",
     "@vue/cli-plugin-eslint": "^4.0.5",

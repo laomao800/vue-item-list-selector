@@ -1261,10 +1261,10 @@
   resolved "https://registry.yarnpkg.com/@laomao800/parse-size-with-unit/-/parse-size-with-unit-1.0.0.tgz#754f8eb50462b56afb3367df6a21502f08676e40"
   integrity sha512-WplWPFgHRRr1CguXGScD38DdkQIGGPxkHZt0FgE5BnJO+46ERh5ML1U3bcwQUnVWRs5bs1KVJUSQdMdepAHkkg==
 
-"@laomao800/vue-demo-box@^1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@laomao800/vue-demo-box/-/vue-demo-box-1.1.6.tgz#15247814919ac0f13065c4f8c87fd7428855bcce"
-  integrity sha512-SMqVJwad/w/f6pL9JV/6+L8ckl2IzIIWRbrgsMAvIIYeL2IVm3p70jBEq2IufHS1x7xi/fpqfEvh7jyQQNJDQg==
+"@laomao800/vue-demo-box@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@laomao800/vue-demo-box/-/vue-demo-box-1.1.7.tgz#a26f374738ac9f962b52b73195e5504bf26acdda"
+  integrity sha512-WxZuQghi9XbawJuxQabkKTrpXycKcspZQ2446Ii1bzCmOnbXJp3dcoFGkvNLGQqltgpGK8FbdOauXnNjYtinzQ==
 
 "@laomao800/vue-select-wrapper@^1.2.0":
   version "1.2.0"
