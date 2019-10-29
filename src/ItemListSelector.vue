@@ -6,14 +6,17 @@
     @keydown.enter.prevent="toggleSelection(activeIndex)"
   >
     <div class="item-selector__searchbar">
-      <span v-if="keyword !== ''" class="item-selector__searchbar-clean" @click="keyword = ''" />
+      <span
+        v-if="keyword !== ''"
+        class="item-selector__searchbar-clean"
+        @click="keyword = ''"
+      />
       <input v-model.trim="keyword" :placeholder="searchText" type="text" />
     </div>
 
-    <div
-      v-if="filtedData.length === 0"
-      class="item-selector__options--empty"
-    >{{ loading ? loadingText : notFoundText }}</div>
+    <div v-if="filtedData.length === 0" class="item-selector__options--empty">
+      {{ loading ? loadingText : notFoundText }}
+    </div>
     <virtual-list
       v-else
       ref="options"
@@ -39,7 +42,10 @@
         @click="toggleSelection(index)"
         @mouseenter="activeIndex = index"
       >
-        <slot name="option-template" v-bind="{ option, keyword, selected: isSelected(option) }">
+        <slot
+          name="option-template"
+          v-bind="{ option, keyword, selected: isSelected(option) }"
+        >
           <span v-html="highlightMatch(optionToString(option))" />
         </slot>
       </li>
@@ -64,7 +70,7 @@ import {
   hasExactMatch
 } from '@laomao800/mark-match'
 
-import { isPromise, isFunction, isArray, getOptionVal } from './utils'
+import { isPromise, isFunction, isArray, getObjVal } from './utils'
 
 export default {
   name: 'ItemListSelector',
@@ -198,8 +204,8 @@ export default {
       console.error(
         '[ItemListSelect error] Expected array with v-model/value in multiple mode, got ' +
           typeof this.value +
-          ' with value ' +
-          this.value
+          ' with value',
+        this.value
       )
     }
     this.initOptionsData()
@@ -233,12 +239,12 @@ export default {
 
     initValue() {
       if (this.multiple && Array.isArray(this.value)) {
-        this.internalValue = this.internalOptions.filter(option =>
-          this.value.includes(getOptionVal(option, this.valueKey))
+        this.internalValue = this.internalOptions.filter(
+          option => this.value.indexOf(getObjVal(option, this.valueKey)) > -1
         )
       } else {
         const val = this.internalOptions.find(
-          option => this.value === getOptionVal(option, this.valueKey)
+          option => this.value === getObjVal(option, this.valueKey)
         )
         this.internalValue = val ? [val] : []
       }
@@ -250,10 +256,10 @@ export default {
         let emitVal
         if (this.multiple) {
           emitVal = this.valueKey
-            ? newVal.map(option => getOptionVal(option, this.valueKey))
+            ? newVal.map(option => getObjVal(option, this.valueKey))
             : newVal
         } else {
-          emitVal = this.valueKey ? newVal[0][this.valueKey] : newVal[0]
+          emitVal = getObjVal(newVal[0], this.valueKey)
         }
         this.internalValue = newVal
         this.$emit('input', emitVal)
@@ -309,7 +315,7 @@ export default {
       this.syncValue(newSelection)
     },
 
-    scrollActiveOptionToView(direction) {
+    scrollActiveOptionToView() {
       this.$nextTick().then(() => {
         const options = this.$refs.options.$el
         const option = options.querySelector('.item-selector__option--active')

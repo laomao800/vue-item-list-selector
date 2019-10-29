@@ -37,7 +37,11 @@
     <h2>String Options</h2>
     <div class="wrap">
       <div class="selector">
-        <ItemListSelector v-model="value4" :options-data="strList" :multiple="false" />
+        <ItemListSelector
+          v-model="value4"
+          :options-data="strList"
+          :multiple="false"
+        />
       </div>
       <div class="result">{{ value4 }}</div>
     </div>
@@ -49,7 +53,7 @@ import ItemListSelector from '../src'
 
 function randomText(length = 20) {
   return [...Array(length)]
-    .map(i => (~~(Math.random() * 36)).toString(36))
+    .map(() => (~~(Math.random() * 36)).toString(36))
     .join('')
 }
 

@@ -14,6 +14,6 @@ export function isArray(val) {
   return Array.isArray(val)
 }
 
-export function getOptionVal(option, key) {
-  return key ? option[key] : option
+export function getObjVal(obj, key) {
+  return key ? obj[key] : obj
 }

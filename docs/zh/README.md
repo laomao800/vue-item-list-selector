@@ -251,6 +251,15 @@ data() {
 
 虚拟滚动效果屏幕外选项数量。
 
+## Methods
+
+| Method      | 参数       | 说明                                     |
+| ----------- | ---------- | ---------------------------------------- |
+| setValue    | (filterFn) | 参数                                     |
+| addValue    | (filterFn) | 参数                                     |
+| removeValue | (filterFn) | 参数                                     |
+| reset       | -          | 清空组件状态，包括绑定值与内部搜索关键字 |
+
 ## Slots
 
 ### `option-template`
