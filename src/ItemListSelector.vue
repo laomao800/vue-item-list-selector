@@ -79,6 +79,11 @@ export default {
     VirtualList
   },
 
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+
   props: {
     value: {
       default: () => []
@@ -238,7 +243,7 @@ export default {
     },
 
     initValue() {
-      if (this.multiple && Array.isArray(this.value)) {
+      if (this.multiple) {
         this.internalValue = this.internalOptions.filter(
           option => this.value.indexOf(getObjVal(option, this.valueKey)) > -1
         )
@@ -262,7 +267,7 @@ export default {
           emitVal = getObjVal(newVal[0], this.valueKey)
         }
         this.internalValue = newVal
-        this.$emit('input', emitVal)
+        this.$emit('change', emitVal)
       }
     },
 
@@ -271,7 +276,7 @@ export default {
     }, 200),
 
     isSelected(item) {
-      return this.internalValue.includes(item)
+      return this.internalValue.indexOf(item) > -1
     },
 
     highlightMatch(text) {

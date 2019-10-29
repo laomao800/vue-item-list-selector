@@ -120,7 +120,7 @@ describe('Choose by keyboard', () => {
       activeIndex: ACTIVE_INDEX
     })
     $input.trigger('keydown.enter')
-    const value = wrapper.emitted()['input'][0][0]
+    const value = wrapper.emitted()['change'][0][0]
     expect(value.length).toBe(1)
     expect(value[0]).toEqual(wrapper.vm.optionsData[ACTIVE_INDEX])
   })
@@ -130,7 +130,7 @@ describe('Choose by keyboard', () => {
       activeIndex: ACTIVE_INDEX + 1
     })
     $input.trigger('keydown.enter')
-    const value = wrapper.emitted()['input'][1][0]
+    const value = wrapper.emitted()['change'][1][0]
     expect(value.length).toBe(2)
     expect(value[1]).toEqual(wrapper.vm.optionsData[ACTIVE_INDEX + 1])
   })
@@ -140,7 +140,7 @@ describe('Choose by keyboard', () => {
       activeIndex: ACTIVE_INDEX
     })
     $input.trigger('keydown.enter')
-    const value = wrapper.emitted()['input'][2][0]
+    const value = wrapper.emitted()['change'][2][0]
     expect(value.length).toBe(1)
     expect(value[0]).toEqual(wrapper.vm.optionsData[ACTIVE_INDEX + 1])
   })

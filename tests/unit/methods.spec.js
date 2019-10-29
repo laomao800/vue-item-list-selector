@@ -11,7 +11,7 @@ describe('Methods', () => {
     })
     const filterFunc = r => r.value === '01'
     wrapper.vm.setValue(filterFunc)
-    const inputEvents = wrapper.emitted()['input']
+    const inputEvents = wrapper.emitted()['change']
     expect(inputEvents.length).toEqual(1)
     expect(inputEvents[0][0].every(filterFunc)).toBeTruthy()
   })
@@ -24,7 +24,7 @@ describe('Methods', () => {
     })
     wrapper.vm.addValue(r => r.value === '10')
     wrapper.vm.addValue(r => r.value === '20')
-    const inputEvents = wrapper.emitted()['input']
+    const inputEvents = wrapper.emitted()['change']
     expect(inputEvents.length).toEqual(2)
     expect(inputEvents[1][0][0].value).toEqual('10')
     expect(inputEvents[1][0][1].value).toEqual('20')
@@ -38,10 +38,10 @@ describe('Methods', () => {
     })
     wrapper.vm.addValue(r => r.value === '10')
     wrapper.setProps({
-      value: wrapper.emitted()['input'][0][0]
+      value: wrapper.emitted()['change'][0][0]
     })
     wrapper.vm.removeValue(r => r.value === '10')
-    const inputEvents = wrapper.emitted()['input']
+    const inputEvents = wrapper.emitted()['change']
     expect(inputEvents.length).toEqual(2)
     expect(inputEvents[0][0][0].value).toEqual('10')
     expect(inputEvents[1][0]).toEqual([])
@@ -64,7 +64,7 @@ describe('Methods', () => {
     const emitted = wrapper.emittedByOrder()
     expect(wrapper.vm.keyword).toEqual('')
     expect(emitted.length).toEqual(1)
-    expect(emitted[0].name).toEqual('input')
+    expect(emitted[0].name).toEqual('change')
     expect(emitted[0].args[0]).toEqual([])
   })
 })
