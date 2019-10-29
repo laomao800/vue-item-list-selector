@@ -189,9 +189,24 @@ How many items should be shown in virtual-list viewport.
 
 How many items not show in virtual-list viewport but exist in real DOM.
 
-### Slots
+## Events
 
-#### `option-template`
+| Events | Description                      |
+| ------ | -------------------------------- |
+| change | Trigger on binding value changed |
+
+## Methods
+
+| Methods               | Params                        | Description                                                               |
+| --------------------- | ----------------------------- | ------------------------------------------------------------------------- |
+| setValue(filterFn)    | filterFn: (option) => boolean | Replace current binding values with the new values filtered by `filterFn` |
+| addValue(filterFn)    | filterFn: (option) => boolean | Add values filtered by `filterFn` from the binding value                  |
+| removeValue(filterFn) | filterFn: (option) => boolean | Remove values filtered by `filterFn` from the binding value               |
+| reset()               | -                             | Clear binding values                                                      |
+
+## Slots
+
+### `option-template`
 
 | Slot prop | info                              |
 | --------- | --------------------------------- |

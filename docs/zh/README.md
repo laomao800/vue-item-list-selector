@@ -251,14 +251,20 @@ data() {
 
 虚拟滚动效果屏幕外选项数量。
 
+## Events
+
+| Events | Description      |
+| ------ | ---------------- |
+| change | 绑定值改变时触发 |
+
 ## Methods
 
-| Method      | 参数       | 说明                                     |
-| ----------- | ---------- | ---------------------------------------- |
-| setValue    | (filterFn) | 参数                                     |
-| addValue    | (filterFn) | 参数                                     |
-| removeValue | (filterFn) | 参数                                     |
-| reset       | -          | 清空组件状态，包括绑定值与内部搜索关键字 |
+| Methods               | Params                        | Description                            |
+| --------------------- | ----------------------------- | -------------------------------------- |
+| setValue(filterFn)    | filterFn: (option) => boolean | 用 `filterFn` 过滤的新值替换当前绑定值 |
+| addValue(filterFn)    | filterFn: (option) => boolean | 从绑定值内添加由 `filterFn` 过滤的值   |
+| removeValue(filterFn) | filterFn: (option) => boolean | 从绑定值内删除由 `filterFn` 过滤的值   |
+| reset()               | -                             | 清空绑定值                             |
 
 ## Slots
 
