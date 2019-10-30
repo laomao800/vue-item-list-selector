@@ -44,7 +44,12 @@
       >
         <slot
           name="option-template"
-          v-bind="{ option, keyword, selected: isSelected(option) }"
+          v-bind="{
+            option,
+            keyword,
+            selected: isSelected(option),
+            markedHtml: highlightMatch(optionToString(option))
+          }"
         >
           <span v-html="highlightMatch(optionToString(option))" />
         </slot>

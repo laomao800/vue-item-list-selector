@@ -61,14 +61,28 @@ describe('Option render', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
         optionsData,
-        optionTemplate: option => `${option.label}: ${option.value}`
+        valueKey: 'value',
+        value: ['10']
+      },
+      scopedSlots: {
+        'option-template': `
+          <div slot-scope="{ option, keyword, selected, markedHtml }">
+            {{option.label}},{{option.value}},{{keyword}},{{selected}},{{markedHtml}}
+          </div>
+        `
       }
     })
+    const keyword = 'la el'
+    wrapper.setData({ keyword })
     Array.from(
       wrapper.vm.$el.querySelectorAll('.item-selector__option')
     ).forEach((el, index) => {
       const option = wrapper.vm.optionsData[index]
-      expect(el.textContent).toBe(`${option.label}: ${option.value}`)
+      expect(el.textContent.trim()).toBe(
+        `${option.label},${option.value},${keyword},` +
+          `${option.value === '10' ? 'true' : 'false'},` +
+          `<mark>la</mark>b<mark>el</mark>-${option.value}`
+      )
     })
   })
 })

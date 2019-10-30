@@ -13,9 +13,9 @@
         :options-data="optionsData"
         :option-template="option => `${option.value}. ${option.label}`"
       >
-        <template v-slot:option-template="{ option, keyword, selected }">
+        <template v-slot:option-template="{ option, keyword, selected, markedHtml }">
           <span
-            v-html="myHighlight(option.label, keyword)"
+            v-html="markedHtml"
             :style="{
               color: '#04AF7E',
               fontWeight: selected ? 'bold' : null
@@ -42,16 +42,6 @@ export default {
         { label: 'label-7', value: 7 },
         { label: 'label-8', value: 8 }
       ]
-    }
-  },
-  methods: {
-    myHighlight(text, keyword) {
-      return keyword
-        ? text.replace(
-            keyword,
-            `<span style="background-color:#ff0">${keyword}</span>`
-          )
-        : text
     }
   }
 }
