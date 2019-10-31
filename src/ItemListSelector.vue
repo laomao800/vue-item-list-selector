@@ -61,11 +61,9 @@
 <style lang="less" src="./style.less"></style>
 
 <script>
-import xor from 'lodash/xor'
-import union from 'lodash/union'
-import isEqual from 'lodash/isEqual'
-import isPlainObject from 'lodash/isPlainObject'
-import throttle from 'lodash/throttle'
+import { throttle } from 'throttle-debounce'
+import { isPlainObject } from 'is-what'
+import isEqual from 'fast-deep-equal'
 import VirtualList from 'vue-virtual-scroll-list'
 import computeScrollIntoView from 'compute-scroll-into-view'
 import {
@@ -276,9 +274,9 @@ export default {
       }
     },
 
-    throttleKeyword: throttle(function() {
+    throttleKeyword: throttle(300, function() {
       this.debounceKeyword = this.keyword
-    }, 200),
+    }),
 
     isSelected(item) {
       return this.internalValue.indexOf(item) > -1
@@ -318,7 +316,15 @@ export default {
 
       let newSelection = []
       if (this.multiple) {
-        newSelection = xor(this.internalValue, [targetItem])
+        const valueIndex = this.internalValue.indexOf(targetItem)
+        if (valueIndex > -1) {
+          newSelection = [
+            ...this.internalValue.slice(0, valueIndex),
+            ...this.internalValue.slice(valueIndex + 1)
+          ]
+        } else {
+          newSelection = [...this.internalValue, targetItem]
+        }
       } else {
         newSelection = [targetItem]
       }
@@ -368,7 +374,9 @@ export default {
         )
       }
       const filtedSelection = this.internalOptions.filter(filterFn)
-      const newSelection = union(this.internalValue, filtedSelection)
+      const newSelection = [
+        ...new Set([...this.internalValue, ...filtedSelection])
+      ]
       this.syncValue(newSelection)
     },
 

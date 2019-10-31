@@ -3,6 +3,7 @@ import commonjs from 'rollup-plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import buble from 'rollup-plugin-buble'
 import { uglify } from 'rollup-plugin-uglify'
+import visualizer from 'rollup-plugin-visualizer'
 import less from 'rollup-plugin-less'
 import autoprefixer from 'autoprefixer'
 
@@ -27,6 +28,15 @@ const commonConfig = {
     }),
     buble()
   ]
+}
+
+if (process.env.REPORT !== undefined) {
+  commonConfig.plugins.push(
+    visualizer({
+      filename: 'dist/report.html',
+      template: 'treemap'
+    })
+  )
 }
 
 export default [

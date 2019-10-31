@@ -53,7 +53,8 @@ const release = async () => {
 
   if (yes) {
     await execa('npm', ['run', 'lint'], { stdio: 'inherit' })
-    await execa('npm', ['run', 'build:lib'], { stdio: 'inherit' })
+    await execa('npm', ['run', 'test:unit'], { stdio: 'inherit' })
+    await execa('npm', ['run', 'build'], { stdio: 'inherit' })
     await execa('git', ['add', 'dist'], { stdio: 'inherit' })
     if (genDocs) {
       await execa('npm', ['run', 'docs:build'], { stdio: 'inherit' })
