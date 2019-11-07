@@ -246,17 +246,18 @@ export default {
     },
 
     initValue() {
+      let newVal
       if (this.multiple) {
-        this.internalValue = this.internalOptions.filter(
+        newVal = this.internalOptions.filter(
           option => this.value.indexOf(getObjVal(option, this.valueKey)) > -1
         )
       } else {
         const val = this.internalOptions.find(
           option => this.value === getObjVal(option, this.valueKey)
         )
-        this.internalValue = val ? [val] : []
+        newVal = val ? [val] : []
       }
-      this.syncValue(this.internalValue)
+      this.syncValue(newVal)
     },
 
     syncValue(newVal) {

@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import ItemListSelector from '@/'
 import getOptions from './__getOptions'
@@ -143,5 +144,58 @@ describe('Choose by keyboard', () => {
     const value = wrapper.emitted()['change'][2][0]
     expect(value.length).toBe(1)
     expect(value[0]).toEqual(wrapper.vm.optionsData[ACTIVE_INDEX + 1])
+  })
+})
+
+describe('`change` event should trigger with default value', () => {
+  const options = getOptions()
+
+  it('promise', async () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        multiple: false,
+        valueKey: 'value',
+        value: '01',
+        optionsData: new Promise(resolve => {
+          resolve(options)
+        })
+      }
+    })
+    await Vue.nextTick()
+    const emitted = wrapper.emittedByOrder()
+    expect(emitted.length).toBe(1)
+    expect(emitted[0].name).toEqual('change')
+    expect(emitted[0].args[0]).toEqual(options[0]['value'])
+  })
+
+  it('callback', () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        multiple: false,
+        valueKey: 'value',
+        value: '01',
+        optionsData: done => done(options)
+      }
+    })
+    const emitted = wrapper.emittedByOrder()
+    expect(emitted.length).toBe(1)
+    expect(emitted[0].name).toEqual('change')
+    expect(emitted[0].args[0]).toEqual(options[0]['value'])
+  })
+
+  it('async function', async () => {
+    const wrapper = mount(ItemListSelector, {
+      propsData: {
+        multiple: false,
+        valueKey: 'value',
+        value: '01',
+        optionsData: async () => options
+      }
+    })
+    await Vue.nextTick()
+    const emitted = wrapper.emittedByOrder()
+    expect(emitted.length).toBe(1)
+    expect(emitted[0].name).toEqual('change')
+    expect(emitted[0].args[0]).toEqual(options[0]['value'])
   })
 })

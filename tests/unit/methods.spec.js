@@ -50,6 +50,7 @@ describe('Methods', () => {
   it('reset', () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
+        value: ['01'],
         valueKey: 'value',
         optionsData: getOptions()
       }
@@ -57,14 +58,10 @@ describe('Methods', () => {
     wrapper.setData({
       keyword: 'label-01'
     })
-    wrapper.setProps({
-      value: ['01']
-    })
     wrapper.vm.reset()
     const emitted = wrapper.emittedByOrder()
     expect(wrapper.vm.keyword).toEqual('')
-    expect(emitted.length).toEqual(1)
-    expect(emitted[0].name).toEqual('change')
-    expect(emitted[0].args[0]).toEqual([])
+    expect(emitted[emitted.length - 1].name).toEqual('change')
+    expect(emitted[emitted.length - 1].args[0]).toEqual([])
   })
 })
