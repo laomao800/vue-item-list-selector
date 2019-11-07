@@ -226,6 +226,7 @@ export default {
         if (Array.isArray(newOptions)) {
           this.internalOptions = newOptions
           this.loading = false
+          this.$emit('options-inited')
           this.initValue()
         }
       }

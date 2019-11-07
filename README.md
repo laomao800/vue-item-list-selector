@@ -191,9 +191,10 @@ How many items not show in virtual-list viewport but exist in real DOM.
 
 ## Events
 
-| Events | Description                      |
-| ------ | -------------------------------- |
-| change | Trigger on binding value changed |
+| Events         | Description                          |
+| -------------- | ------------------------------------ |
+| change         | Trigger on binding value changed     |
+| options-inited | Trigger on `optionsData` was loaded. |
 
 ## Methods
 

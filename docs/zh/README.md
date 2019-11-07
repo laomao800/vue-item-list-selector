@@ -253,9 +253,10 @@ data() {
 
 ## Events
 
-| Events | Description      |
-| ------ | ---------------- |
-| change | 绑定值改变时触发 |
+| Events         | Description                  |
+| -------------- | ---------------------------- |
+| change         | 绑定值改变时触发             |
+| options-inited | `optionsData` 加载完成时触发 |
 
 ## Methods
 
