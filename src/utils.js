@@ -1,3 +1,7 @@
+export function getObjVal(obj, key) {
+  return key ? obj[key] : obj
+}
+
 export function isPromise(val) {
   return (
     !!val &&
@@ -6,14 +10,18 @@ export function isPromise(val) {
   )
 }
 
-export function isFunction(val) {
-  return typeof val === 'function'
-}
-
 export function isArray(val) {
   return Array.isArray(val)
 }
 
-export function getObjVal(obj, key) {
-  return key ? obj[key] : obj
+export function isFunction(val) {
+  return typeof val === 'function'
+}
+
+export function isPlainObject(val) {
+  if (typeof val !== 'object') return false
+  return (
+    val.constructor === Object &&
+    Object.getPrototypeOf(val) === Object.prototype
+  )
 }

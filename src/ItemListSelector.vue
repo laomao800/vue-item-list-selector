@@ -62,7 +62,6 @@
 
 <script>
 import { throttle } from 'throttle-debounce'
-import { isPlainObject } from 'is-what'
 import isEqual from 'fast-deep-equal'
 import VirtualList from 'vue-virtual-scroll-list'
 import computeScrollIntoView from 'compute-scroll-into-view'
@@ -73,7 +72,13 @@ import {
   hasExactMatch
 } from '@laomao800/mark-match'
 
-import { isPromise, isFunction, isArray, getObjVal } from './utils'
+import {
+  isPromise,
+  isFunction,
+  isPlainObject,
+  isArray,
+  getObjVal
+} from './utils'
 
 export default {
   name: 'ItemListSelector',
@@ -207,7 +212,7 @@ export default {
 
   created() {
     /* istanbul ignore if */
-    if (this.multiple && !Array.isArray(this.value)) {
+    if (this.multiple && !isArray(this.value)) {
       // eslint-disable-next-line no-console
       console.error(
         '[ItemListSelect error] Expected array with v-model/value in multiple mode, got ' +
@@ -223,7 +228,7 @@ export default {
     initOptionsData() {
       const done = newOptions => {
         /* istanbul ignore else */
-        if (Array.isArray(newOptions)) {
+        if (isArray(newOptions)) {
           this.internalOptions = newOptions
           this.loading = false
           this.$emit('options-inited')
@@ -262,7 +267,7 @@ export default {
     },
 
     syncValue(newVal) {
-      if (!isEqual(newVal, this.internalValue)) {
+      if (isArray(newVal) && !isEqual(newVal, this.internalValue)) {
         let emitVal
         if (this.multiple) {
           emitVal = this.valueKey

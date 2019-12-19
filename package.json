@@ -37,7 +37,6 @@
     "@laomao800/mark-match": "^1.1.0",
     "compute-scroll-into-view": "^1.0.11",
     "fast-deep-equal": "^2.0.1",
-    "is-what": "^3.3.1",
     "throttle-debounce": "^2.1.0",
     "vue-virtual-scroll-list": "^1.2.8"
   },
