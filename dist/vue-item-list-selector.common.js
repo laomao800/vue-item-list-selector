@@ -1,6 +1,6 @@
 /**
  * @preserve
- * @laomao800/vue-item-list-selector v2.1.3
+ * @laomao800/vue-item-list-selector v2.1.4
  */
 'use strict';
 
@@ -121,27 +121,6 @@ function throttle (delay, noTrailing, callback, debounceMode) {
   wrapper.cancel = cancel; // Return the wrapper function.
 
   return wrapper;
-}
-
-/**
- * Returns the object type of the given payload
- *
- * @param {*} payload
- * @returns {string}
- */
-function getType(payload) {
-    return Object.prototype.toString.call(payload).slice(8, -1);
-}
-/**
- * Returns whether the payload is a plain JavaScript object (excluding special classes or objects with other prototypes)
- *
- * @param {*} payload
- * @returns {payload is {[key: string]: any}}
- */
-function isPlainObject(payload) {
-    if (getType(payload) !== 'Object')
-        { return false; }
-    return (payload.constructor === Object && Object.getPrototypeOf(payload) === Object.prototype);
 }
 
 var isArray = Array.isArray;
@@ -832,6 +811,10 @@ var markMatch_3 = markMatch_1.markExactMatch;
 var markMatch_4 = markMatch_1.hasMatch;
 var markMatch_5 = markMatch_1.hasExactMatch;
 
+function getObjVal(obj, key) {
+  return key ? obj[key] : obj
+}
+
 function isPromise(val) {
   return (
     !!val &&
@@ -840,16 +823,20 @@ function isPromise(val) {
   )
 }
 
-function isFunction(val) {
-  return typeof val === 'function'
-}
-
 function isArray$1(val) {
   return Array.isArray(val)
 }
 
-function getObjVal(obj, key) {
-  return key ? obj[key] : obj
+function isFunction(val) {
+  return typeof val === 'function'
+}
+
+function isPlainObject(val) {
+  if (typeof val !== 'object') { return false }
+  return (
+    val.constructor === Object &&
+    Object.getPrototypeOf(val) === Object.prototype
+  )
 }
 
 //
@@ -988,7 +975,7 @@ var script = {
 
   created: function created() {
     /* istanbul ignore if */
-    if (this.multiple && !Array.isArray(this.value)) {
+    if (this.multiple && !isArray$1(this.value)) {
       // eslint-disable-next-line no-console
       console.error(
         '[ItemListSelect error] Expected array with v-model/value in multiple mode, got ' +
@@ -1006,7 +993,7 @@ var script = {
 
       var done = function (newOptions) {
         /* istanbul ignore else */
-        if (Array.isArray(newOptions)) {
+        if (isArray$1(newOptions)) {
           this$1.internalOptions = newOptions;
           this$1.loading = false;
           this$1.$emit('options-inited');
@@ -1049,7 +1036,7 @@ var script = {
     syncValue: function syncValue(newVal) {
       var this$1 = this;
 
-      if (!fastDeepEqual(newVal, this.internalValue)) {
+      if (isArray$1(newVal) && !fastDeepEqual(newVal, this.internalValue)) {
         var emitVal;
         if (this.multiple) {
           emitVal = this.valueKey
@@ -1350,7 +1337,7 @@ var __vue_staticRenderFns__ = [];
   /* style */
   var __vue_inject_styles__ = function (inject) {
     if (!inject) { return }
-    inject("data-v-7d0fdf74_0", { source: ".item-selector{position:relative;line-height:1;background-color:#fff;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;overflow:hidden;font-size:14px}.item-selector__searchbar{position:relative;margin:8px}.item-selector__searchbar input{background-color:#fff;border-radius:4px;border:1px solid #dcdfe6;-webkit-box-sizing:border-box;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:32px;line-height:32px;outline:0;padding:0 15px;-webkit-transition:border-color .2s cubic-bezier(.645,.045,.355,1);transition:border-color .2s cubic-bezier(.645,.045,.355,1);width:100%}.item-selector__searchbar input:focus{border-color:#409eff}.item-selector__searchbar input::-webkit-input-placeholder{color:#bdc2ca}.item-selector__searchbar input::-moz-placeholder{color:#bdc2ca}.item-selector__searchbar input:-ms-input-placeholder{color:#bdc2ca}.item-selector__searchbar input::-ms-input-placeholder{color:#bdc2ca}.item-selector__searchbar input::placeholder{color:#bdc2ca}.item-selector__searchbar-clean{width:20px;height:20px;line-height:20px;position:absolute;top:50%;right:5px;margin-top:-10px;text-align:center;cursor:pointer;opacity:.6}.item-selector__searchbar-clean:hover{opacity:1}.item-selector__searchbar-clean::after,.item-selector__searchbar-clean::before{content:'';position:absolute;width:16px;height:1px;background-color:#999;left:50%;top:50%;margin-left:-8px}.item-selector__searchbar-clean::before{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.item-selector__searchbar-clean::after{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.item-selector__options-wrap{border-top:#e2e6ec 1px solid}.item-selector__options{margin:0;padding:0;list-style:none}.item-selector__options--empty{margin:0;line-height:34px;text-align:center;color:#999;font-size:14px}.item-selector__option{font-size:14px;padding:0 15px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#606266;height:34px;line-height:34px;-webkit-box-sizing:border-box;box-sizing:border-box;cursor:pointer}.item-selector__option--active,.item-selector__option:hover{background-color:#f5f7fa}.item-selector__option::after{position:absolute;top:50%;right:15px;display:none;width:6px;height:12px;margin-top:-8px;content:'';-webkit-transform:rotate(45deg);transform:rotate(45deg);text-align:center;border:solid #ddd;border-width:0 1px 1px 0}.item-selector__option--checked{color:#409eff;font-weight:700}.item-selector__option--checked::after{display:block;border-color:#409eff}.item-selector mark{background-color:#ff0}", map: undefined, media: undefined });
+    inject("data-v-5dcdd5de_0", { source: ".item-selector{position:relative;line-height:1;background-color:#fff;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;overflow:hidden;font-size:14px}.item-selector__searchbar{position:relative;margin:8px}.item-selector__searchbar input{background-color:#fff;border-radius:4px;border:1px solid #dcdfe6;-webkit-box-sizing:border-box;box-sizing:border-box;color:#606266;display:inline-block;font-size:inherit;height:32px;line-height:32px;outline:0;padding:0 15px;-webkit-transition:border-color .2s cubic-bezier(.645,.045,.355,1);transition:border-color .2s cubic-bezier(.645,.045,.355,1);width:100%}.item-selector__searchbar input:focus{border-color:#409eff}.item-selector__searchbar input::-webkit-input-placeholder{color:#bdc2ca}.item-selector__searchbar input::-moz-placeholder{color:#bdc2ca}.item-selector__searchbar input:-ms-input-placeholder{color:#bdc2ca}.item-selector__searchbar input::-ms-input-placeholder{color:#bdc2ca}.item-selector__searchbar input::placeholder{color:#bdc2ca}.item-selector__searchbar-clean{width:20px;height:20px;line-height:20px;position:absolute;top:50%;right:5px;margin-top:-10px;text-align:center;cursor:pointer;opacity:.6}.item-selector__searchbar-clean:hover{opacity:1}.item-selector__searchbar-clean::after,.item-selector__searchbar-clean::before{content:'';position:absolute;width:16px;height:1px;background-color:#999;left:50%;top:50%;margin-left:-8px}.item-selector__searchbar-clean::before{-webkit-transform:rotate(45deg);transform:rotate(45deg)}.item-selector__searchbar-clean::after{-webkit-transform:rotate(-45deg);transform:rotate(-45deg)}.item-selector__options-wrap{border-top:#e2e6ec 1px solid}.item-selector__options{margin:0;padding:0;list-style:none}.item-selector__options--empty{margin:0;line-height:34px;text-align:center;color:#999;font-size:14px}.item-selector__option{font-size:14px;padding:0 15px;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#606266;height:34px;line-height:34px;-webkit-box-sizing:border-box;box-sizing:border-box;cursor:pointer}.item-selector__option--active,.item-selector__option:hover{background-color:#f5f7fa}.item-selector__option::after{position:absolute;top:50%;right:15px;display:none;width:6px;height:12px;margin-top:-8px;content:'';-webkit-transform:rotate(45deg);transform:rotate(45deg);text-align:center;border:solid #ddd;border-width:0 1px 1px 0}.item-selector__option--checked{color:#409eff;font-weight:700}.item-selector__option--checked::after{display:block;border-color:#409eff}.item-selector mark{background-color:#ff0}", map: undefined, media: undefined });
 
   };
   /* scoped */
