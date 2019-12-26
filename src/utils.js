@@ -1,5 +1,5 @@
 export function getObjVal(obj, key) {
-  return key ? (obj ? obj[key] : obj) : obj
+  return isPlainObject(obj) && key ? obj[key] : obj
 }
 
 export function isPromise(val) {
