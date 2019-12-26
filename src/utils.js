@@ -1,5 +1,5 @@
 export function getObjVal(obj, key) {
-  return key ? obj[key] : obj
+  return key ? (obj ? obj[key] : obj) : obj
 }
 
 export function isPromise(val) {
