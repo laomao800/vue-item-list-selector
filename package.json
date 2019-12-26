@@ -1,6 +1,6 @@
 {
   "name": "@laomao800/vue-item-list-selector",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "An item selector Vue.js component.",
   "publishConfig": {
     "access": "public"
