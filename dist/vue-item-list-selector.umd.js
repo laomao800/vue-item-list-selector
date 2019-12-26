@@ -1,6 +1,6 @@
 /**
  * @preserve
- * @laomao800/vue-item-list-selector v2.1.4
+ * @laomao800/vue-item-list-selector v2.1.5
  */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('vue')) :
@@ -814,7 +814,7 @@
   var markMatch_5 = markMatch_1.hasExactMatch;
 
   function getObjVal(obj, key) {
-    return key ? obj[key] : obj
+    return isPlainObject(obj) && key ? obj[key] : obj
   }
 
   function isPromise(val) {

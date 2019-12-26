@@ -1,6 +1,6 @@
 /**
  * @preserve
- * @laomao800/vue-item-list-selector v2.1.4
+ * @laomao800/vue-item-list-selector v2.1.5
  */
 'use strict';
 
@@ -812,7 +812,7 @@ var markMatch_4 = markMatch_1.hasMatch;
 var markMatch_5 = markMatch_1.hasExactMatch;
 
 function getObjVal(obj, key) {
-  return key ? obj[key] : obj
+  return isPlainObject(obj) && key ? obj[key] : obj
 }
 
 function isPromise(val) {
