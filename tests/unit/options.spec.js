@@ -57,7 +57,7 @@ describe('Option render', () => {
     })
   })
 
-  it('slot: option-template', () => {
+  it('slot: option-template', async () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
         optionsData,
@@ -73,7 +73,7 @@ describe('Option render', () => {
       }
     })
     const keyword = 'la el'
-    wrapper.setData({ keyword })
+    await wrapper.setData({ keyword })
     Array.from(
       wrapper.vm.$el.querySelectorAll('.item-selector__option')
     ).forEach((el, index) => {
@@ -88,29 +88,29 @@ describe('Option render', () => {
 })
 
 describe('Option search', () => {
-  it('Single keyword', () => {
+  it('Single keyword', async () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
         optionsData
       }
     })
-    wrapper.setData({ debounceKeyword: 'label-1' })
+    await wrapper.setData({ debounceKeyword: 'label-1' })
     expect(wrapper.findAll('.item-selector__option').length).toBe(10)
   })
 
-  it('Multiple Keyword', () => {
+  it('Multiple Keyword', async () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
         optionsData
       }
     })
-    wrapper.setData({
+    await wrapper.setData({
       debounceKeyword: 'label-01 10 20'
     })
     expect(wrapper.findAll('.item-selector__option').length).toBe(3)
   })
 
-  it('Unsplit keyword', () => {
+  it('Unsplit keyword', async () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
         optionsData: [
@@ -120,7 +120,7 @@ describe('Option search', () => {
         splitKeyword: false
       }
     })
-    wrapper.setData({
+    await wrapper.setData({
       debounceKeyword: 'label 01'
     })
     expect(wrapper.findAll('.item-selector__option').length).toBe(1)
@@ -144,16 +144,16 @@ describe('Option search', () => {
     })
 
     regChar.forEach(char => {
-      it(`char check: ${char}`, () => {
-        wrapper.setData({
+      it(`char check: ${char}`, async () => {
+        await wrapper.setData({
           debounceKeyword: char
         })
         expect(wrapper.vm.filtedData.length).toBe(1)
       })
     })
 
-    it('char join', () => {
-      wrapper.setData({
+    it('char join', async () => {
+      await wrapper.setData({
         debounceKeyword: regChar.join(' ')
       })
       expect(wrapper.vm.filtedData.length).toBe(regChar.length)
@@ -172,17 +172,19 @@ describe('Filter method', () => {
       }
     }
   })
-  wrapper.setData({ debounceKeyword: 'label-10' })
 
-  it('Call by all options', () => {
+  it('Call by all options', async () => {
+    await wrapper.setData({ debounceKeyword: 'label-10' })
     expect(filterMethodSpy.mock.calls.length).toBe(optionsData.length)
   })
-  it('Arguments', () => {
+  it('Arguments', async () => {
+    await wrapper.setData({ debounceKeyword: 'label-10' })
     expect(filterMethodSpy.mock.calls).toEqual(
       optionsData.map(option => [option, 'label-10'])
     )
   })
-  it('Filte result', () => {
+  it('Filte result', async () => {
+    await wrapper.setData({ debounceKeyword: 'label-10' })
     expect(wrapper.findAll('.item-selector__option').length).toBe(1)
   })
 })

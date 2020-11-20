@@ -47,7 +47,7 @@ describe('Methods', () => {
     expect(inputEvents[1][0]).toEqual([])
   })
 
-  it('multiple - reset', () => {
+  it('multiple - reset', async () => {
     const wrapper = mount(ItemListSelector, {
       propsData: {
         value: ['01'],
@@ -55,14 +55,13 @@ describe('Methods', () => {
         optionsData: getOptions()
       }
     })
-    wrapper.setData({
+    await wrapper.setData({
       keyword: 'label-01'
     })
     wrapper.vm.reset()
-    const emitted = wrapper.emittedByOrder()
     expect(wrapper.vm.keyword).toEqual('')
-    expect(emitted[emitted.length - 1].name).toEqual('change')
-    expect(emitted[emitted.length - 1].args[0]).toEqual([])
+    const emitted = wrapper.emitted()
+    expect(emitted['change'][1][0]).toEqual([])
   })
 
   it('single - reset', () => {
@@ -78,9 +77,9 @@ describe('Methods', () => {
       keyword: 'label-01'
     })
     wrapper.vm.reset()
-    const emitted = wrapper.emittedByOrder()
     expect(wrapper.vm.keyword).toEqual('')
-    expect(emitted[emitted.length - 1].name).toEqual('change')
-    expect(emitted[emitted.length - 1].args[0]).toEqual(undefined)
+
+    const emitted = wrapper.emitted()
+    expect(emitted['change'][1][0]).toEqual(undefined)
   })
 })

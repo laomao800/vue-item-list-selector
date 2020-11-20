@@ -156,15 +156,13 @@ describe('`change` event should trigger with default value', () => {
         multiple: false,
         valueKey: 'value',
         value: '01',
-        optionsData: new Promise(resolve => {
-          resolve(options)
-        })
+        optionsData: new Promise(resolve => resolve(options))
       }
     })
     await Vue.nextTick()
-    const emitted = wrapper.emittedByOrder()
-    expect(emitted.map(r => r.name)).toEqual(['options-inited', 'change'])
-    expect(emitted[1].args[0]).toEqual(options[0]['value'])
+    const emitted = wrapper.emitted()
+    expect(emitted['options-inited']).toBeTruthy()
+    expect(emitted['change'][0][0]).toEqual(options[0]['value'])
   })
 
   it('callback', () => {
@@ -176,9 +174,9 @@ describe('`change` event should trigger with default value', () => {
         optionsData: done => done(options)
       }
     })
-    const emitted = wrapper.emittedByOrder()
-    expect(emitted.map(r => r.name)).toEqual(['options-inited', 'change'])
-    expect(emitted[1].args[0]).toEqual(options[0]['value'])
+    const emitted = wrapper.emitted()
+    expect(emitted['options-inited']).toBeTruthy()
+    expect(emitted['change'][0][0]).toEqual(options[0]['value'])
   })
 
   it('async function', async () => {
@@ -191,8 +189,8 @@ describe('`change` event should trigger with default value', () => {
       }
     })
     await Vue.nextTick()
-    const emitted = wrapper.emittedByOrder()
-    expect(emitted.map(r => r.name)).toEqual(['options-inited', 'change'])
-    expect(emitted[1].args[0]).toEqual(options[0]['value'])
+    const emitted = wrapper.emitted()
+    expect(emitted['options-inited']).toBeTruthy()
+    expect(emitted['change'][0][0]).toEqual(options[0]['value'])
   })
 })

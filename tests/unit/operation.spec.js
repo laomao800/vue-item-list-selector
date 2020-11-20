@@ -12,7 +12,7 @@ describe('Operation', () => {
   const $input = wrapper.find('.item-selector__searchbar input')
 
   it('Press ↓', async () => {
-    wrapper.setData({
+    await wrapper.setData({
       activeIndex: 2
     })
     expect(wrapper.findAll('.item-selector__option--active').length).toEqual(1)
@@ -22,16 +22,16 @@ describe('Operation', () => {
     expect(wrapper.vm.activeIndex).toEqual(4)
   })
 
-  it('Press ↓ at last', () => {
-    wrapper.setData({
+  it('Press ↓ at last', async () => {
+    await wrapper.setData({
       activeIndex: wrapper.vm.filtedData.length - 1
     })
     $input.trigger('keydown.down')
     expect(wrapper.vm.activeIndex).toEqual(0)
   })
 
-  it('Press ↑', () => {
-    wrapper.setData({
+  it('Press ↑', async () => {
+    await wrapper.setData({
       activeIndex: 2
     })
     $input.trigger('keydown.up')
@@ -40,8 +40,8 @@ describe('Operation', () => {
     expect(wrapper.vm.activeIndex).toEqual(0)
   })
 
-  it('Press ↑ at first', () => {
-    wrapper.setData({
+  it('Press ↑ at first', async () => {
+    await wrapper.setData({
       activeIndex: 0
     })
     $input.trigger('keydown.up')
